@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Ghidul Tău · Your Guide</title>
+<meta name="description" content="Un spațiu privat și cald despre corp, emoții, relații și siguranță — pentru adolescenți.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#0B0B10;
+    --bg-deep-2:#101015;
+    --panel:#17171F;
+    --panel-2:#1D1D27;
+    --panel-soft:#24242F;
+    --coral:#FF5C7A;
+    --coral-dim:#e0506b;
+    --rose:#FF9FB3;
+    --teal:#2EE6C0;
+    --gold:#FFD23F;
+    --text:#F7F7FA;
+    --text-muted:#B8B8C6;
+    --text-faint:#84849A;
+    --border:rgba(247,247,250,0.09);
+    --border-strong:rgba(247,247,250,0.16);
+    --radius-lg:26px;
+    --radius-md:19px;
+    --radius-sm:13px;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 120% 50% at 50% -10%, #16161d 0%, transparent 55%),
+      radial-gradient(ellipse 80% 40% at 100% 100%, #14181a 0%, transparent 50%),
+      var(--bg-deep);
+    color:var(--text);
+    font-family:'Inter',system-ui,sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-0.02em;}
+  .mono{font-family:'IBM Plex Mono',monospace;letter-spacing:0.02em;}
+  ::selection{background:var(--coral);color:#1a1a2e;}
+  a{color:var(--rose);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;}
+  }
+
+  .app-shell{
+    max-width:560px;
+    margin:0 auto;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+  }
+
+  /* ---------- TOPBAR ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:40;
+    padding:calc(14px + var(--safe-top)) 18px 12px;
+    display:flex;align-items:center;justify-content:space-between;
+    background:linear-gradient(180deg, rgba(11,11,16,0.97) 70%, rgba(11,11,16,0));
+    backdrop-filter:blur(6px);
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand-mark{
+    width:34px;height:34px;border-radius:50%;
+    background:radial-gradient(circle at 32% 28%, #ffe3c9, var(--coral) 60%, var(--coral-dim));
+    display:flex;align-items:center;justify-content:center;
+    font-size:16px;flex-shrink:0;
+    box-shadow:0 0 0 1px rgba(255,255,255,0.08), 0 4px 14px rgba(255,92,122,0.25);
+  }
+  .brand-text{display:flex;flex-direction:column;line-height:1.15;}
+  .brand-name{font-size:16.5px;font-weight:600;}
+  .brand-sub{font-size:10.5px;color:var(--text-faint);font-family:'IBM Plex Mono',monospace;letter-spacing:0.03em;}
+
+  .lang-toggle{
+    display:flex;position:relative;background:var(--panel);border:1px solid var(--border-strong);
+    border-radius:999px;padding:3px;gap:2px;
+  }
+  .lang-pill{
+    position:absolute;top:3px;left:3px;width:calc(50% - 3px);height:calc(100% - 6px);
+    background:var(--coral);border-radius:999px;z-index:0;
+    transition:transform .35s cubic-bezier(.34,1.1,.4,1);
+  }
+  .lang-toggle button{
+    position:relative;z-index:1;border:none;background:transparent;color:var(--text-muted);
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:500;
+    padding:6px 11px;border-radius:999px;cursor:pointer;
+    transition:color .25s ease,transform .15s ease;
+  }
+  .lang-toggle button:active{transform:scale(0.92);}
+  .lang-toggle button.active{color:#1c1730;font-weight:600;}
+
+  .progress-track{position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(245,241,234,0.06);}
+  .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--coral),var(--rose));transition:width .1s linear;}
+
+  /* ---------- CONTENT ---------- */
+  .content{
+    flex:1;padding:6px 18px calc(108px + var(--safe-bottom));
+  }
+  .view{display:none;animation:fadeUp .35s ease both;}
+  .view.active{display:block;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+  .card.enter, .home-link.enter{animation:fadeUp .45s cubic-bezier(.22,.61,.36,1) both;}
+
+  .hero{padding:14px 2px 22px;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--teal);
+    background:rgba(46,230,192,0.1);border:1px solid rgba(46,230,192,0.25);
+    padding:5px 10px;border-radius:999px;margin-bottom:14px;
+  }
+  .eyebrow.rose{color:var(--rose);background:rgba(255,159,179,0.12);border-color:rgba(255,159,179,0.28);}
+  .eyebrow.coral{color:var(--coral);background:rgba(255,92,122,0.12);border-color:rgba(255,92,122,0.28);}
+  .eyebrow.teal{color:var(--teal);background:rgba(46,230,192,0.12);border-color:rgba(46,230,192,0.28);}
+  .eyebrow.gold{color:var(--gold);background:rgba(255,210,63,0.12);border-color:rgba(255,210,63,0.28);}
+  .eyebrow.lav{color:#c9b8f0;background:rgba(201,184,240,0.12);border-color:rgba(201,184,240,0.28);}
+  .hero h1{
+    font-family:'Archivo Black',sans-serif;font-weight:400;
+    font-size:34px;line-height:1.08;margin:0 0 14px;letter-spacing:-0.01em;
+  }
+  .hero h1 .accent{color:var(--coral);}
+  .hero p.lead{font-size:15.5px;line-height:1.6;color:var(--text-muted);margin:0 0 18px;}
+  .hero-note{
+    background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-md);
+    padding:16px 16px;font-size:13.5px;line-height:1.55;color:var(--text-muted);
+  }
+  .hero-note b{color:var(--text);}
+
+  .cta-help{
+    display:inline-flex;align-items:center;gap:9px;
+    background:var(--gold);color:#1a1408;border:none;border-radius:999px;
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;letter-spacing:.01em;
+    padding:13px 20px;margin:4px 0 22px;cursor:pointer;
+    box-shadow:0 8px 22px rgba(255,210,63,0.22);
+    transition:transform .15s ease, box-shadow .2s ease;
+  }
+  .cta-help:active{transform:scale(0.95);}
+  .cta-help .arrow{transition:transform .2s ease;}
+  .cta-help:hover .arrow{transform:translateX(3px);}
+
+  .constellation{width:100%;max-width:260px;height:auto;display:block;margin:0 auto 26px;opacity:0.9;}
+
+  .promise-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}
+  .promise{
+    border-radius:var(--radius-md);
+    padding:14px 13px;font-size:12.5px;line-height:1.45;color:var(--text-muted);
+    border:1px solid transparent;
+  }
+  .promise .ic{font-size:22px;margin-bottom:8px;display:block;}
+  .promise b{color:var(--text);display:block;font-size:13.3px;margin-bottom:2px;font-family:'Space Grotesk',sans-serif;font-weight:600;letter-spacing:-0.01em;}
+  .promise.c1{background:rgba(255,92,122,0.12);border-color:rgba(255,92,122,0.22);}
+  .promise.c2{background:rgba(46,230,192,0.12);border-color:rgba(46,230,192,0.22);}
+  .promise.c3{background:rgba(255,159,179,0.12);border-color:rgba(255,159,179,0.22);}
+  .promise.c4{background:rgba(255,210,63,0.12);border-color:rgba(255,210,63,0.22);}
+
+  .home-links{display:flex;flex-direction:column;gap:10px;margin-top:22px;}
+  .home-link{
+    display:flex;align-items:center;gap:12px;
+    background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-md);
+    padding:13px 14px;cursor:pointer;transition:transform .15s ease, border-color .15s ease;
+  }
+  .home-link:active{transform:scale(0.98);}
+  .home-link:hover{border-color:var(--border-strong);}
+  .home-link .hl-ic{
+    width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;
+    background:var(--panel-soft);flex-shrink:0;
+  }
+  .home-link .hl-ic svg{width:19px;height:19px;}
+  .home-link .hl-txt b{display:block;font-size:14px;font-weight:600;}
+  .home-link .hl-txt span{display:block;font-size:12px;color:var(--text-faint);margin-top:1px;}
+  .home-link .hl-arrow{margin-left:auto;color:var(--text-faint);font-size:16px;}
+
+  /* ---------- SECTION BLOCKS ---------- */
+  .section-header{padding:16px 2px 4px;}
+  .section-header .eyebrow{margin-bottom:12px;}
+  .section-header h1{font-size:25px;margin:0 0 8px;}
+  .section-header p{font-size:14px;color:var(--text-muted);line-height:1.55;margin:0;}
+
+  .card{
+    background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-lg);
+    padding:18px 18px 19px;margin:14px 0;
+    transition:transform .15s ease, border-color .2s ease;
+  }
+  .card h2{font-size:18px;margin:0 0 4px;display:flex;align-items:center;gap:9px;}
+  .card h2 .tag-dot{width:7px;height:7px;border-radius:50%;background:var(--coral);flex-shrink:0;}
+  .card .card-sub{font-size:12px;color:var(--text-muted);margin:0 0 12px;font-family:'IBM Plex Mono',monospace;}
+  .card p{font-size:14px;line-height:1.62;color:var(--text-muted);margin:0 0 10px;}
+  .card p:last-child{margin-bottom:0;}
+  .card ul{margin:8px 0;padding-left:0;list-style:none;}
+  .card ul li{
+    font-size:13.8px;line-height:1.55;color:var(--text-muted);
+    padding-left:20px;position:relative;margin-bottom:8px;
+  }
+  .card ul li::before{
+    content:"";position:absolute;left:2px;top:8px;width:6px;height:6px;border-radius:2px;
+    background:var(--rose);transform:rotate(45deg);
+  }
+  .card.teal{border-color:rgba(46,230,192,0.3);background:linear-gradient(160deg, rgba(46,230,192,0.08), var(--panel));}
+  .card.teal h2 .tag-dot{background:var(--teal);}
+  .card.gold{border-color:rgba(255,210,63,0.3);background:linear-gradient(160deg, rgba(255,210,63,0.08), var(--panel));}
+  .card.gold h2 .tag-dot{background:var(--gold);}
+
+  .checklist{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+  .check-item{
+    display:flex;gap:10px;align-items:flex-start;
+    background:var(--panel-soft);border-radius:var(--radius-sm);padding:11px 12px;
+  }
+  .check-item .cb{
+    width:18px;height:18px;border-radius:6px;border:1.5px solid var(--border-strong);
+    flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;
+    font-size:11px;color:var(--teal);transition:.2s;
+  }
+  .check-item.on .cb{border-color:var(--teal);background:rgba(46,230,192,0.15);}
+  .check-item span{font-size:13.3px;line-height:1.5;color:var(--text-muted);}
+
+  .callout{
+    border-radius:var(--radius-md);padding:14px 15px;font-size:13.3px;line-height:1.55;
+    display:flex;gap:11px;margin:16px 0;
+  }
+  .callout .ic{font-size:18px;flex-shrink:0;}
+  .callout.info{background:rgba(46,230,192,0.08);border:1px solid rgba(46,230,192,0.25);color:#d3f3e8;}
+  .callout.warn{background:rgba(255,92,122,0.08);border:1px solid rgba(255,92,122,0.28);color:#ffdccb;}
+  .callout b{color:#fff;}
+
+  .divider-label{
+    display:flex;align-items:center;gap:10px;margin:26px 0 12px;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.06em;
+  }
+  .divider-label::after{content:"";flex:1;height:1px;background:var(--border);}
+
+  /* toggle pairs for good/unhealthy comparisons */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+  .compare .col{border-radius:var(--radius-sm);padding:12px 11px;font-size:12.3px;line-height:1.5;}
+  .compare .col.good{background:rgba(46,230,192,0.09);border:1px solid rgba(46,230,192,0.22);}
+  .compare .col.bad{background:rgba(255,92,122,0.09);border:1px solid rgba(255,92,122,0.24);}
+  .compare .col b{display:block;font-size:11.5px;margin-bottom:7px;font-family:'IBM Plex Mono',monospace;letter-spacing:.02em;}
+  .compare .col.good b{color:var(--teal);}
+  .compare .col.bad b{color:var(--coral);}
+  .compare ul{margin:0;padding:0;list-style:none;}
+  .compare li{margin-bottom:6px;padding-left:13px;position:relative;color:var(--text-muted);}
+  .compare li::before{content:"–";position:absolute;left:0;color:var(--text-faint);}
+
+  /* ---------- QUESTION JAR ---------- */
+  .jar-intro{margin-bottom:16px;}
+  .filter-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+  .filter-chip{
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;padding:7px 12px;border-radius:999px;
+    background:var(--panel);border:1px solid var(--border-strong);color:var(--text-muted);cursor:pointer;
+    transition:background .2s ease, color .2s ease, border-color .2s ease, transform .15s ease;
+  }
+  .filter-chip:active{transform:scale(0.93);}
+  .filter-chip.active{background:var(--rose);color:#2a1a24;border-color:var(--rose);font-weight:600;box-shadow:0 3px 12px rgba(255,159,179,0.25);}
+
+  .note-card{
+    perspective:1200px;margin-bottom:12px;cursor:pointer;min-height:78px;
+    transition:transform .15s ease;
+  }
+  .note-card:active{transform:scale(0.98);}
+  .note-inner{
+    position:relative;width:100%;min-height:78px;
+    transition:transform .5s cubic-bezier(.4,.2,.2,1);
+    transform-style:preserve-3d;
+  }
+  .note-card.open .note-inner{transform:rotateX(180deg);}
+  .note-face{
+    position:absolute;inset:0;backface-visibility:hidden;
+    border-radius:var(--radius-md);padding:15px 16px;
+    display:flex;align-items:center;
+  }
+  .note-front{
+    background:var(--panel);border:1px solid var(--border);
+  }
+  .note-front .qtxt{font-size:13.6px;line-height:1.45;color:var(--text);font-weight:500;padding-right:26px;}
+  .note-front::after{
+    content:"";position:absolute;right:15px;top:50%;width:7px;height:7px;
+    border-right:1.6px solid var(--text-faint);border-bottom:1.6px solid var(--text-faint);
+    transform:translateY(-65%) rotate(45deg);
+  }
+  .note-back{
+    transform:rotateX(180deg);
+    background:var(--panel-2);border:1px solid var(--border-strong);
+    flex-direction:column;align-items:flex-start;padding:16px 16px 15px;
+  }
+  .note-back .lab{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.05em;margin-bottom:6px;padding:3px 8px;border-radius:999px;}
+  .note-back .lab.myth{background:rgba(255,92,122,0.32);color:#FFD3C2;}
+  .note-back .lab.fact{background:rgba(46,230,192,0.32);color:#D3F5EA;}
+  .note-back p{font-size:13px;line-height:1.55;color:var(--text-muted);margin:0;}
+
+  /* ---------- GLOSSARY ---------- */
+  .glos-search{
+    width:100%;background:var(--panel);border:1px solid var(--border-strong);border-radius:var(--radius-sm);
+    padding:12px 14px;color:var(--text);font-size:14px;font-family:'Inter',sans-serif;margin-bottom:14px;
+  }
+  .glos-search::placeholder{color:var(--text-faint);}
+  .glos-item{border-bottom:1px solid var(--border);padding:12px 2px;}
+  .glos-item:last-child{border-bottom:none;}
+  .glos-item .term{font-weight:600;font-size:13.8px;color:var(--rose);margin-bottom:3px;}
+  .glos-item .def{font-size:13px;color:var(--text-muted);line-height:1.5;}
+
+  /* ---------- RESOURCES ---------- */
+  .res-card{
+    display:flex;align-items:center;gap:13px;background:var(--panel);border:1px solid var(--border);
+    border-radius:var(--radius-md);padding:14px 15px;margin-bottom:10px;
+  }
+  .res-num{
+    font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;color:#1c1730;
+    background:var(--gold);border-radius:10px;padding:8px 10px;flex-shrink:0;min-width:44px;text-align:center;
+  }
+  .res-txt b{display:block;font-size:14px;margin-bottom:2px;}
+  .res-txt span{display:block;font-size:12px;color:var(--text-muted);line-height:1.4;}
+
+  /* ---------- TABBAR ---------- */
+  .tabbar{
+    position:fixed;left:0;right:0;bottom:0;z-index:50;
+    display:flex;justify-content:center;
+    padding-bottom:calc(10px + var(--safe-bottom));
+    pointer-events:none;
+  }
+  .tabbar-inner{
+    pointer-events:auto;position:relative;
+    width:calc(100% - 24px);max-width:536px;
+    display:flex;justify-content:space-between;gap:2px;
+    background:rgba(23,23,31,0.97);backdrop-filter:blur(14px);
+    border:1px solid var(--border-strong);border-radius:20px;
+    padding:7px 6px;
+    box-shadow:0 12px 32px rgba(0,0,0,0.35);
+  }
+  .tab-indicator{
+    position:absolute;top:7px;bottom:7px;left:6px;
+    border-radius:14px;background:rgba(255,92,122,0.14);
+    transition:transform .4s cubic-bezier(.34,1.1,.4,1), width .4s cubic-bezier(.34,1.1,.4,1);
+    pointer-events:none;z-index:0;
+  }
+  .tab-btn{
+    position:relative;z-index:1;
+    flex:1;background:transparent;border:none;color:var(--text-faint);
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+    padding:8px 2px 7px;border-radius:14px;cursor:pointer;
+    transition:color .2s ease, transform .15s ease;
+  }
+  .tab-btn:active{transform:scale(0.92);}
+  .tab-btn svg{width:19px;height:19px;transition:.2s;}
+  .tab-btn span{font-size:9.5px;font-family:'IBM Plex Mono',monospace;letter-spacing:.01em;}
+  .tab-btn.active{color:var(--coral);}
+
+  /* scrollbar */
+  ::-webkit-scrollbar{width:0;height:0;}
+
+  .foot-credit{
+    text-align:center;font-size:10.5px;color:var(--text-faint);font-family:'IBM Plex Mono',monospace;
+    padding:26px 10px 6px;line-height:1.6;
+  }
+  .foot-credit a{color:var(--text-faint);text-decoration:underline;}
+
+  :focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+</style>
+</head>
+<body>
+<div class="app-shell">
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">☾</div>
+      <div class="brand-text">
+        <span class="brand-name" data-t="brandName">Ghidul Tău</span>
+        <span class="brand-sub" data-t="brandSub">SPAȚIU PRIVAT · FĂRĂ JUDECATĂ</span>
+      </div>
+    </div>
+    <div class="lang-toggle">
+      <div class="lang-pill" id="langPill"></div>
+      <button id="btnRo" class="active">RO</button>
+      <button id="btnEn">EN</button>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </header>
+
+  <main class="content" id="content">
+
+    <!-- ============ HOME ============ -->
+    <section class="view active" id="view-home">
+      <div class="hero">
+        <span class="eyebrow" data-t="home.eyebrow">● 6 CAPITOLE · CITEȘTE ÎN RITMUL TĂU</span>
+        <h1 data-t="home.title">Despre corpul tău, sentimentele tale și cum să te ții în siguranță.</h1>
+        <p class="lead" data-t="home.lead">Adolescența aduce multe întrebări — unele ușor de pus cu voce tare, altele nu. Aici găsești răspunsuri clare, oneste, fără rușine și fără presiune.</p>
+
+        <button class="cta-help" data-goto="qa">
+          <span data-t="home.ctaHelp">Ajutor acum</span><span class="arrow">→</span>
+        </button>
+
+        <svg class="constellation" viewBox="0 0 300 190" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g stroke="var(--coral)" stroke-width="1.2" opacity="0.55">
+            <line x1="58" y1="42" x2="112" y2="30"/>
+            <line x1="112" y1="30" x2="180" y2="56"/>
+            <line x1="58" y1="42" x2="96" y2="92"/>
+            <line x1="96" y1="92" x2="150" y2="112"/>
+            <line x1="150" y1="112" x2="222" y2="132"/>
+            <line x1="96" y1="92" x2="222" y2="132"/>
+            <line x1="70" y1="152" x2="96" y2="92"/>
+            <line x1="70" y1="152" x2="150" y2="112"/>
+          </g>
+          <g fill="var(--teal)">
+            <circle cx="58" cy="42" r="4"/>
+            <circle cx="112" cy="30" r="6"/>
+            <circle cx="180" cy="56" r="3.5"/>
+            <circle cx="96" cy="92" r="5.5"/>
+            <circle cx="150" cy="112" r="3.5"/>
+            <circle cx="222" cy="132" r="7"/>
+            <circle cx="70" cy="152" r="3.5"/>
+          </g>
+        </svg>
+
+        <div class="hero-note">
+          <span data-t="home.note"><b>Acest spațiu e doar al tău.</b> Nu se salvează nimic, nu trebuie să spui nimănui că l-ai citit. Poți sări peste orice capitol și reveni oricând.</span>
+        </div>
+        <div class="promise-grid">
+          <div class="promise c1"><span class="ic">🔒</span><b data-t="home.p1t">Privat</b><span data-t="home.p1d">Nimic din ce citești aici nu e urmărit sau trimis cuiva.</span></div>
+          <div class="promise c2"><span class="ic">🩺</span><b data-t="home.p2t">Factual</b><span data-t="home.p2d">Informații verificate, fără mituri sau sperietori.</span></div>
+          <div class="promise c3"><span class="ic">🤝</span><b data-t="home.p3t">Respectuos</b><span data-t="home.p3d">Fiecare persoană se dezvoltă în ritmul ei — nu există „normal” unic.</span></div>
+          <div class="promise c4"><span class="ic">🧭</span><b data-t="home.p4t">Cu ieșire</b><span data-t="home.p4d">Îți arătăm mereu la cine poți apela dacă ai nevoie de ajutor real.</span></div>
+        </div>
+        <div class="callout info" style="margin-top:16px;">
+          <span class="ic">🏡</span>
+          <span data-t="home.valuesNote">Familiile au valori diferite despre sexualitate — unele mai deschise, altele mai conservatoare sau legate de credință. Acest ghid îți oferă informații, nu un verdict despre ce e „corect” pentru familia ta. Discuțiile cu părinții sau tutorii tăi rămân importante.</span>
+        </div>
+      </div>
+
+      <div class="divider-label" data-t="home.chaptersLabel">CAPITOLE</div>
+      <div class="home-links">
+        <div class="home-link" data-goto="body" role="button" tabindex="0">
+          <div class="hl-ic" style="background:rgba(255,159,179,.15)"><svg viewBox="0 0 24 24" fill="none" stroke="#FF9FB3" stroke-width="1.6"><circle cx="12" cy="6" r="3.2"/><path d="M8 21v-6.5c0-1.5.6-2.5 1.5-3.3M16 21v-6.5c0-1.5-.6-2.5-1.5-3.3M9.5 11.2h5"/></svg></div>
+          <div class="hl-txt"><b data-t="tab.body">Corpul tău</b><span data-t="home.l1">Pubertate, schimbări, ciclul menstrual</span></div>
+          <div class="hl-arrow">›</div>
+        </div>
+        <div class="home-link" data-goto="feelings" role="button" tabindex="0">
+          <div class="hl-ic" style="background:rgba(255,92,122,.15)"><svg viewBox="0 0 24 24" fill="none" stroke="#FF5C7A" stroke-width="1.6"><path d="M12 20s-7-4.35-9.3-8.9C1.4 8.1 3 5 6.3 5c1.9 0 3.4 1.1 4.2 2.6C11.3 6.1 12.8 5 14.7 5 18 5 19.6 8.1 18.3 11.1 16 15.65 12 20 12 20Z"/></svg></div>
+          <div class="hl-txt"><b data-t="tab.feelings">Emoții & atracție</b><span data-t="home.l2">Ce simți, atracție, identitate</span></div>
+          <div class="hl-arrow">›</div>
+        </div>
+        <div class="home-link" data-goto="consent" role="button" tabindex="0">
+          <div class="hl-ic" style="background:rgba(46,230,192,.15)"><svg viewBox="0 0 24 24" fill="none" stroke="#2EE6C0" stroke-width="1.6"><path d="M12 3 4 6.5v5.2c0 4.8 3.4 7.9 8 9.3 4.6-1.4 8-4.5 8-9.3V6.5L12 3Z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <div class="hl-txt"><b data-t="tab.consent">Consimțământ & relații</b><span data-t="home.l3">Limite, respect, siguranță online</span></div>
+          <div class="hl-arrow">›</div>
+        </div>
+        <div class="home-link" data-goto="health" role="button" tabindex="0">
+          <div class="hl-ic" style="background:rgba(255,210,63,.15)"><svg viewBox="0 0 24 24" fill="none" stroke="#FFD23F" stroke-width="1.6"><path d="M12 21s-7-4.5-9.5-9C1 8.5 2.5 5 6 5c2 0 3.5 1.2 4.5 2.8L12 9.2l1.5-1.4C14.5 6.2 16 5 18 5c3.5 0 5 3.5 3.5 7-2.5 4.5-9.5 9-9.5 9Z"/><path d="M12 8v6M9 11h6"/></svg></div>
+          <div class="hl-txt"><b data-t="tab.health">Sănătate & protecție</b><span data-t="home.l4">ITS, contracepție, igienă</span></div>
+          <div class="hl-arrow">›</div>
+        </div>
+        <div class="home-link" data-goto="qa" role="button" tabindex="0">
+          <div class="hl-ic" style="background:rgba(183,179,214,.15)"><svg viewBox="0 0 24 24" fill="none" stroke="#B7B3D6" stroke-width="1.6"><path d="M21 11.5a8.4 8.4 0 0 1-8.9 8.4 8.9 8.9 0 0 1-3.5-.7L3 20l1.05-3.5A8.4 8.4 0 1 1 21 11.5Z"/><circle cx="12" cy="11.5" r=".9" fill="#B7B3D6" stroke="none"/></svg></div>
+          <div class="hl-txt"><b data-t="tab.qa">Întrebări & ajutor</b><span data-t="home.l5">Mituri, glosar, linii de suport</span></div>
+          <div class="hl-arrow">›</div>
+        </div>
+      </div>
+
+      <div class="callout info" style="margin-top:22px;">
+        <span class="ic">💬</span>
+        <span data-t="home.closeNote">Dacă ceva din ce citești te neliniștește sau vrei să vorbești cu cineva, capitolul <b>Întrebări & ajutor</b> are numere de telefon gratuite și confidențiale.</span>
+      </div>
+    </section>
+
+    <!-- ============ BODY ============ -->
+    <section class="view" id="view-body">
+      <div class="section-header">
+        <span class="eyebrow rose" data-t="body.eyebrow">● CAPITOLUL 1</span>
+        <h1 data-t="tab.body">Corpul tău</h1>
+        <p data-t="body.intro">Pubertatea e procesul prin care corpul unui copil devine corpul unui adult tânăr. Începe și se termină diferit pentru fiecare — de obicei undeva între 8 și 16 ani. Nu e o cursă.</p>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="body.c1t">Ce declanșează totul: hormonii</span></h2>
+        <p data-t="body.c1p">Creierul începe să trimită semnale hormonale (estrogen, testosteron și alții) care pornesc toate schimbările fizice și multe dintre cele emoționale. Aceiași hormoni explică de ce dispoziția se poate schimba rapid în această perioadă — e biologie, nu un defect de caracter.</p>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="body.c2t">Schimbări care pot apărea</span></h2>
+        <p class="card-sub" data-t="body.c2sub">Nu toate apar la toată lumea, nici în aceeași ordine — variația e normală.</p>
+        <div class="checklist" id="body-checklist"></div>
+      </div>
+
+      <div class="card teal">
+        <h2><span class="tag-dot"></span><span data-t="body.c3t">Ciclul menstrual, pe scurt</span></h2>
+        <p data-t="body.c3p1">Menstruația e eliminarea lunară a mucoasei uterine când nu are loc o sarcină. Un ciclu durează în medie 21–35 de zile (poate fi neregulat în primii ani) iar sângerarea ține 3–7 zile.</p>
+        <p data-t="body.c3p2">Crampele ușoare, balonarea sau schimbările de dispoziție înainte de ciclu sunt frecvente. Dureri foarte puternice care te împiedică să funcționezi normal merită discutate cu un medic — nu trebuie să le „suporți” în tăcere.</p>
+        <ul id="body-period-tips"></ul>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="body.padsT">Absorbante, tampoane sau cupă menstruală?</span></h2>
+        <p class="card-sub" data-t="body.padsSub">Niciuna nu e „mai bună” — alegerea e personală, se poate schimba oricând.</p>
+        <ul id="body-pads-list"></ul>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="body.c4t">Anatomie, pe înțelesul tuturor</span></h2>
+        <p data-t="body.c4p">Corpurile cu care ne naștem au organe reproducătoare interne și externe — la unele persoane predominant „femele” (ovare, uter, vagin, vulvă), la altele „masculine” (testicule, penis), iar la unele persoane intersex o combinație a acestora. Toate variantele sunt corpuri normale și sănătoase.</p>
+        <p data-t="body.c4p2">Nu există o „mărime corectă” pentru nimic — organele genitale variază la fel de mult ca nasurile sau urechile, de la persoană la persoană.</p>
+        <p class="card-sub" data-t="body.c4sub" style="margin-top:12px;">Câteva organe interne, pe scurt:</p>
+        <ul id="body-anatomy-list"></ul>
+      </div>
+
+      <div class="callout warn">
+        <span class="ic">🩺</span>
+        <span data-t="body.warn">Dacă observi ceva care te doare tare, nu se vindecă, sau te îngrijorează — un medic de familie sau un ginecolog/androlog nu e ceva de care să te temi. E treaba lor să te ajute, nu să te judece.</span>
+      </div>
+    </section>
+
+    <!-- ============ FEELINGS ============ -->
+    <section class="view" id="view-feelings">
+      <div class="section-header">
+        <span class="eyebrow coral" data-t="feel.eyebrow">● CAPITOLUL 2</span>
+        <h1 data-t="tab.feelings">Emoții & atracție</h1>
+        <p data-t="feel.intro">Pe lângă schimbările fizice, adolescența aduce emoții mai intense, mai schimbătoare și, adesea, primele atracții romantice sau sexuale. Toate acestea sunt parte firească a dezvoltării.</p>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="feel.c1t">De ce dispoziția se schimbă atât de repede</span></h2>
+        <p data-t="feel.c1p">Creierul adolescentin e încă „în construcție” — partea care simte emoții intens se dezvoltă mai repede decât partea care le reglează. De aceea sentimentele pot părea copleșitoare uneori. Nu ești „prea sensibil”; e o etapă normală de dezvoltare.</p>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="feel.c2t">Atracție și primele sentimente</span></h2>
+        <p data-t="feel.c2p1">E complet normal să începi să simți atracție romantică sau fizică față de alte persoane — și e la fel de normal să nu simți încă nimic de acest fel. Nu există un „termen limită”.</p>
+        <p data-t="feel.c2p2">Atracția poate fi față de persoane de același gen, de gen diferit, de ambele, sau poți încă să nu știi — și e în regulă să nu ai un răspuns clar acum. Identitatea se poate clarifica în timp, în ritmul tău.</p>
+      </div>
+
+      <div class="card gold">
+        <h2><span class="tag-dot"></span><span data-t="feel.c3t">Orientare & identitate — câteva repere</span></h2>
+        <p data-t="feel.c3intro" style="margin-bottom:10px;">Trei lucruri diferite, des confundate: <b style="color:var(--text)">sexul biologic</b> (corpul cu care te-ai născut), <b style="color:var(--text)">identitatea de gen</b> (cine simți că ești — băiat, fată, ambele, niciuna) și <b style="color:var(--text)">orientarea sexuală</b> (față de cine simți atracție). Nu se determină una pe cealaltă.</p>
+        <ul id="feel-identity-list"></ul>
+        <p data-t="feel.c3p" style="margin-top:10px;">Nu trebuie să ai o etichetă acum, și nici să o păstrezi pentru totdeauna dacă alegi una. E ok să explorezi cine ești, în siguranță și în ritmul tău.</p>
+        <p data-t="feel.c3p2" style="margin-top:10px;">Dacă întâmpini tachinări, respingere sau tratament nedrept legat de cine ești sau pe cine iubești, asta nu spune nimic despre valoarea ta. Un consilier școlar, Telefonul Copilului sau un adult de încredere pot fi un sprijin real.</p>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="feel.c4t">Imaginea corporală</span></h2>
+        <p data-t="feel.c4p">În perioada asta corpul se schimbă vizibil, iar comparațiile — mai ales cele de pe rețele sociale — pot afecta cum te vezi. Corpurile din poze sunt adesea filtrate sau editate. Corpul tău real, în schimbare, nu e o greșeală care trebuie corectată.</p>
+        <p data-t="feel.c4p2" style="margin:0;">Corpul tău nu e doar ceva de privit — e ceea ce te duce pe munte, te lasă să dansezi prost și cu poftă, te îmbrățișează pe cineva drag. Merită apreciere pentru ce face, nu doar verdict pentru cum arată.</p>
+      </div>
+
+      <div class="card teal">
+        <h2><span class="tag-dot"></span><span data-t="feel.groundT">Când emoția e prea mare, chiar acum</span></h2>
+        <p class="card-sub" data-t="feel.groundSub">O tehnică simplă de ancorare, pentru momentul în care simți că te copleșește:</p>
+        <ul id="feel-ground-list"></ul>
+      </div>
+
+      <div class="callout info">
+        <span class="ic">🫶</span>
+        <span data-t="feel.close">Dacă emoțiile devin copleșitoare pentru perioade lungi — tristețe constantă, anxietate care nu trece, gânduri că nu ești în regulă — merită să vorbești cu un adult de încredere sau un consilier școlar. Nu trebuie să treci prin asta singur.</span>
+      </div>
+      <div class="callout warn">
+        <span class="ic">💛</span>
+        <span data-t="feel.selfharm">Dacă îți vin vreodată gânduri de a-ți face rău, spune cuiva imediat — unui adult de încredere sau la 116 111 — chiar dacă pare fără legătură cu ce citești acum. Nu trebuie să aștepți să fie „suficient de grav”.</span>
+      </div>
+    </section>
+
+    <!-- ============ CONSENT ============ -->
+    <section class="view" id="view-consent">
+      <div class="section-header">
+        <span class="eyebrow teal" data-t="cons.eyebrow">● CAPITOLUL 3</span>
+        <h1 data-t="tab.consent">Consimțământ & relații</h1>
+        <p data-t="cons.intro">Consimțământul înseamnă acordul liber, clar și continuu al unei persoane pentru orice formă de contact fizic sau apropiere. E unul dintre cele mai importante lucruri de înțeles — pentru tine și pentru ceilalți.</p>
+      </div>
+
+      <div class="card teal">
+        <h2><span class="tag-dot"></span><span data-t="cons.c1t">Corpul tău îți aparține</span></h2>
+        <p data-t="cons.c1p">Ai dreptul deplin asupra propriului corp. Nimeni — indiferent de vârstă, relație sau statut — nu are dreptul să te atingă, să te sărute sau să se apropie fizic de tine fără acordul tău clar. Iar tu ai aceeași obligație față de ceilalți.</p>
+        <ul id="cons-principles"></ul>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="cons.c2t">„Da” arată așa</span></h2>
+        <p data-t="cons.c2p">Un consimțământ real e dat liber (fără presiune, frică sau manipulare), clar (comunicat, nu presupus), specific (pentru un lucru anume, nu „tot ce urmează”) și poate fi retras oricând — chiar și după ce ai spus „da” inițial.</p>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="cons.c2bt">Vârsta consimțământului, în România</span></h2>
+        <p data-t="cons.c2bp" style="margin:0;">Din 2024, legea românească stabilește că o persoană sub 16 ani nu poate da un consimțământ valabil pentru relații sexuale cu cineva semnificativ mai în vârstă. Asta te protejează pe tine — indiferent ce spune sau promite adultul respectiv, legea e de partea ta.</p>
+      </div>
+
+      <div class="card teal">
+        <h2><span class="tag-dot"></span><span data-t="cons.sayNoT">Cum spui „nu”, concret</span></h2>
+        <p class="card-sub" data-t="cons.sayNoSub">Nu ai nevoie de un motiv elaborat. Câteva variante care funcționează:</p>
+        <ul id="cons-sayno-list"></ul>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="cons.talkT">Cum vorbești despre protecție, cu un partener</span></h2>
+        <p class="card-sub" data-t="cons.talkSub">O discuție incomodă e mai ușoară cu fraze pregătite din timp:</p>
+        <ul id="cons-talk-list"></ul>
+      </div>
+
+      <div class="divider-label" data-t="cons.compareLabel">RELAȚII SĂNĂTOASE VS. NESĂNĂTOASE</div>
+      <div class="compare">
+        <div class="col good">
+          <b data-t="cons.goodLabel">SĂNĂTOASĂ</b>
+          <ul id="cons-good"></ul>
+        </div>
+        <div class="col bad">
+          <b data-t="cons.badLabel">RISC</b>
+          <ul id="cons-bad"></ul>
+        </div>
+      </div>
+      <p style="font-size:12.5px;color:var(--text-faint);line-height:1.55;margin:10px 2px 0;" data-t="cons.compareWhy">Diferența nu ține de câte cadouri sau mesaje primești, ci de putere: iubirea reală te lasă liber; controlul îți restrânge treptat libertatea și te face să depinzi tot mai mult de cealaltă persoană.</p>
+
+      <div class="card" style="margin-top:22px;">
+        <h2><span class="tag-dot"></span><span data-t="cons.peerT">Presiunea grupului</span></h2>
+        <p data-t="cons.peerP" style="margin:0;">„Toată lumea a făcut-o deja” e, aproape mereu, o exagerare — adolescenții tind constant să supraestimeze cât de „activi” sunt colegii lor. Ritmul tău nu trebuie să se potrivească cu ce crezi tu că fac ceilalți.</p>
+      </div>
+
+      <div class="card gold">
+        <h2><span class="tag-dot"></span><span data-t="cons.byT">Dacă un prieten are nevoie de ajutor</span></h2>
+        <p data-t="cons.byP" style="margin:0;">Dacă vezi un prieten presat, controlat sau speriat de cineva, nu trebuie să rezolvi tu situația. Poți întreba discret dacă e bine, poți rămâne aproape, și poți încuraja să vorbească cu un adult de încredere sau să sune la 116 111.</p>
+      </div>
+
+      <div class="card" style="margin-top:22px;border-color:rgba(255,92,122,0.3);">
+        <h2><span class="tag-dot"></span><span data-t="cons.assaultT">Agresiunea sexuală — ce înseamnă și ce poți face</span></h2>
+        <p data-t="cons.assaultP1">Agresiunea sexuală înseamnă orice contact sau act sexual impus fără consimțământ — prin forță, amenințare, manipulare, sau asupra unei persoane care nu putea consimți (din cauza vârstei, somnului, substanțelor sau altor motive). Se poate întâmpla între străini, dar și în relații, familii sau prietenii — indiferent cine e implicat, nu e niciodată vina persoanei agresate.</p>
+        <p data-t="cons.assaultP2" style="margin-bottom:0;">Dacă ți s-a întâmplat, chiar recent: ajungi într-un loc sigur, spui unui adult de încredere sau suni la <b style="color:var(--text)">112</b> ori <b style="color:var(--text)">116 111</b>. Dacă poți, evită să te speli sau să arunci hainele purtate până vorbești cu cineva — pot conta ca dovezi, dacă alegi să faci o plângere, deși alegerea rămâne mereu a ta.</p>
+      </div>
+
+      <div class="card" style="margin-top:22px;">
+        <h2><span class="tag-dot"></span><span data-t="cons.c3t">Siguranță online</span></h2>
+        <p data-t="cons.c3p1">Trimiterea de poze intime („sexting”) — chiar și către cineva de încredere — nu mai poate fi controlată odată trimisă: poate fi salvată, distribuită sau folosită împotriva ta. Legea tratează imaginile intime cu minori ca fiind ilegale, indiferent cine le-a trimis sau primit.</p>
+        <p data-t="cons.c3p2">Fii atent la persoane — online sau nu — care: îți cer să păstrezi secrete față de părinți, te izolează de prieteni, îți oferă cadouri sau atenție excesivă și apoi cer ceva în schimb, sau insistă să treci de la un chat public la unul privat rapid. Aceste tipare merită discutate cu un adult de încredere, chiar dacă persoana pare „drăguță”.</p>
+        <p data-t="cons.c3secret">O distincție importantă: a citi în privat despre aceste teme (ca aici) nu e același lucru cu a ține o relație sau o persoană secretă față de părinți. Informarea privată e sănătoasă; secretul cerut de altcineva despre o relație anume e adesea un semnal de alarmă.</p>
+        <p data-t="cons.c3p3" style="margin:0;">Dacă ceva de genul ți s-a întâmplat sau se întâmplă acum: nu e vina ta. Poți suna gratuit și confidențial la <b style="color:var(--text)">116 111</b> (vezi capitolul Ajutor).</p>
+      </div>
+
+      <div class="callout warn">
+        <span class="ic">🚫</span>
+        <span data-t="cons.warn"><b>Refuzul e mereu valabil.</b> „Nu”, tăcerea, ezitarea sau retragerea fizică înseamnă nu. Nimeni nu „merită” insistență, iar a spune nu — oricui, oricând — nu are nevoie de explicații.</span>
+      </div>
+    </section>
+
+    <!-- ============ HEALTH ============ -->
+    <section class="view" id="view-health">
+      <div class="section-header">
+        <span class="eyebrow gold" data-t="hlth.eyebrow">● CAPITOLUL 4</span>
+        <h1 data-t="tab.health">Sănătate & protecție</h1>
+        <p data-t="hlth.intro">Informații de bază, factuale — nu instrucțiuni. Pentru orice decizie concretă, un medic de familie, un ginecolog sau un cabinet de planning familial pot răspunde confidențial și fără judecată.</p>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="hlth.whatT">Ce înseamnă, de fapt, „sex”</span></h2>
+        <p data-t="hlth.whatP1">„Sex” nu înseamnă un singur lucru. Include contactul vaginal, oral și anal, dar și atingerea reciprocă a corpurilor fără penetrare. Toate sunt forme reale de activitate sexuală, cu riscuri diferite.</p>
+        <p data-t="hlth.whatP2" style="margin:0;">O sarcină poate apărea doar în urma contactului vaginal. ITS, în schimb, se pot transmite prin oricare dintre aceste forme de contact — inclusiv prin sex oral, care e adesea considerat greșit „fără risc”.</p>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="hlth.c0t">Cum apare o sarcină</span></h2>
+        <p data-t="hlth.c0p1">O sarcină apare când un spermatozoid fecundează un ovul, de obicei în urma unui contact sexual cu penetrare vaginală. Ovulul e eliberat lunar dintr-un ovar (ovulație) și poate fi fecundat doar într-o fereastră scurtă din ciclu — dar pentru că momentul ovulației variază, mai ales la cicluri neregulate, „calculul zilelor sigure” nu e o metodă de protecție de încredere.</p>
+        <p data-t="hlth.c0p2" style="margin:0;">Sarcina poate apărea și fără o ejaculare completă în interior, dacă lichidul preseminal ajunge în contact cu vaginul.</p>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="hlth.pregT">Dacă apare o sarcină neplanificată</span></h2>
+        <p data-t="hlth.pregP1" style="margin:0;">Există mai multe variante posibile (continuarea sarcinii, adopția, sau întreruperea ei, unde legea permite) — care e potrivită depinde de context, valori personale sau de familie, și e o decizie care se ia cu ajutor medical și adesea cu susținerea unui adult de încredere. Cel mai important e să vorbești cu cineva cât mai repede — un părinte, un medic sau un cabinet de planning familial pot explica opțiunile concrete, confidențial.</p>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="hlth.c1t">Infecții cu transmitere sexuală (ITS)</span></h2>
+        <p data-t="hlth.c1p1">ITS sunt infecții care se pot transmite prin contact sexual. Multe (ex: chlamydia, HPV) nu dau simptome vizibile la început, motiv pentru care testarea contează, nu doar „a te simți bine”.</p>
+        <p data-t="hlth.c1p2">Vestea bună: majoritatea ITS sunt tratabile, iar riscul poate fi redus semnificativ prin folosirea corectă a prezervativului și prin testare regulată odată ce cineva devine activ sexual.</p>
+        <p data-t="hlth.c1p3" style="margin:0;">Vaccinul HPV, recomandat de obicei în jurul acestei vârste, reduce mult riscul câtorva tipuri de cancer și infecții cauzate de acest virus. Merită o discuție cu un medic sau cu un părinte/tutore.</p>
+      </div>
+
+      <div class="card" style="border-color:rgba(255,92,122,0.3);">
+        <h2><span class="tag-dot"></span><span data-t="hlth.stiListT">Cele mai frecvente ITS, pe scurt</span></h2>
+        <ul id="hlth-sti-list"></ul>
+        <p data-t="hlth.stiListP" style="margin-top:10px;">Riscul există la orice tip de cuplu, indiferent de genul partenerilor — protecția și testarea contează la fel de mult pentru toată lumea.</p>
+      </div>
+
+      <div class="callout info">
+        <span class="ic">🔬</span>
+        <span data-t="hlth.testing">Testarea pentru ITS e, de obicei, gratuită și confidențială la cabinetele de boli infecțioase sau planning familial — inclusiv pentru minori, în multe cazuri fără să fie nevoie de acordul unui părinte pentru testare (deși tratamentul poate necesita implicarea unui adult).</span>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="hlth.c2t">Contracepție — categorii generale</span></h2>
+        <p data-t="hlth.c2p">Există mai multe tipuri de metode contraceptive, cu grade diferite de eficiență și disponibile doar prin recomandare medicală pentru majoritatea (în afară de prezervativ):</p>
+        <ul id="hlth-contra-list"></ul>
+        <p data-t="hlth.c2p2" style="margin-top:10px;">Prezervativul e singura metodă care protejează și împotriva ITS, nu doar a sarcinii. Nicio metodă, în afară de abstinență, nu oferă protecție 100%.</p>
+      </div>
+
+      <div class="card teal">
+        <h2><span class="tag-dot"></span><span data-t="hlth.condomT">Prezervativul, folosit corect</span></h2>
+        <p class="card-sub" data-t="hlth.condomSub">Cele mai multe eșecuri vin din folosirea greșită, nu din metodă în sine.</p>
+        <ul id="hlth-condom-list"></ul>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="hlth.mastT">Masturbarea</span></h2>
+        <p data-t="hlth.mastP" style="margin:0;">Atingerea propriului corp de plăcere e o parte normală și obișnuită a descoperirii de sine, la orice gen. Nu dăunează fizic, nu „epuizează” nimic și nu are legătură cu câtă atracție simți față de alte persoane. Singura condiție reală: să rămână un moment privat.</p>
+      </div>
+
+      <div class="card gold">
+        <h2><span class="tag-dot"></span><span data-t="hlth.readyT">Ești pregătit(ă) pentru asta?</span></h2>
+        <p class="card-sub" data-t="hlth.readySub">Nu există o vârstă „corectă” universală. Există, în schimb, câteva întrebări utile:</p>
+        <ul id="hlth-ready-list"></ul>
+        <p data-t="hlth.readyP" style="margin-top:10px;">Dacă răspunsul la oricare dintre acestea te face nesigur(ă), e un semnal bun să mai aștepți.</p>
+      </div>
+
+      <div class="card teal">
+        <h2><span class="tag-dot"></span><span data-t="hlth.c3t">Igienă zilnică</span></h2>
+        <ul id="hlth-hygiene-list"></ul>
+      </div>
+
+      <div class="callout info">
+        <span class="ic">🏥</span>
+        <span data-t="hlth.close">Nu e nimic rușinos în a merge la un medic pentru întrebări legate de corp sau sexualitate. Consultațiile medicale legate de sănătatea sexuală sunt, de regulă, confidențiale.</span>
+      </div>
+    </section>
+
+    <!-- ============ QA / HELP ============ -->
+    <section class="view" id="view-qa">
+      <div class="section-header">
+        <span class="eyebrow lav" data-t="qa.eyebrow">● CAPITOLUL 5</span>
+        <h1 data-t="tab.qa">Întrebări & ajutor</h1>
+        <p data-t="qa.intro">Întrebările pe care mulți adolescenți le au, dar rar le pun cu voce tare. Atinge un cartonaș pentru răspuns.</p>
+      </div>
+
+      <p style="font-size:12.5px;color:var(--text-faint);margin:0 0 14px;" data-t="qa.hint">Atinge un cartonaș pentru răspuns — atinge-l din nou pentru a-l închide.</p>
+      <div class="filter-row" id="qa-filters"></div>
+      <div id="qa-list"></div>
+
+      <div class="divider-label" data-t="qa.glossaryLabel">GLOSAR</div>
+      <input class="glos-search" id="glosSearch" placeholder="Caută un termen…" data-t-ph="qa.glossPh">
+      <div id="glos-list"></div>
+
+      <div class="divider-label" data-t="qa.helpLabel">LA CINE POȚI APELA</div>
+
+      <div class="callout warn">
+        <span class="ic">🆘</span>
+        <span data-t="qa.tier1"><b>Chiar acum ești în pericol</b> (tu sau altcineva) — sună imediat la <b>112</b>. Nu aștepta să fii sigur — mai bine suni degeaba decât să nu suni deloc.</span>
+      </div>
+      <div class="callout warn" style="margin-top:10px;">
+        <span class="ic">📞</span>
+        <span data-t="qa.tier2"><b>Ceva s-a întâmplat recent</b> — un abuz, o poză trimisă fără voia ta, o presiune serioasă — sună confidențial la <b>116 111</b> (Telefonul Copilului), gratuit, oricând.</span>
+      </div>
+      <div class="callout info" style="margin-top:10px;">
+        <span class="ic">💬</span>
+        <span data-t="qa.tier3"><b>Doar vrei să vorbești sau ești îngrijorat</b> — un adult de încredere, un consilier școlar sau tot 116 111 pot asculta fără să fie o urgență.</span>
+      </div>
+
+      <div style="margin-top:16px;"></div>
+      <div id="res-list"></div>
+
+      <p class="foot-credit" data-t="footer.credit">Realizat ca resursă psihoeducațională de <a href="https://psyalexsimion.com" target="_blank" rel="noopener">psyalexsimion.com</a>. Nu înlocuiește sfatul unui medic, psiholog sau părinte/tutore.</p>
+    </section>
+
+  </main>
+
+  <nav class="tabbar">
+    <div class="tabbar-inner" id="tabbarInner">
+      <div class="tab-indicator" id="tabIndicator"></div>
+      <button class="tab-btn active" data-goto="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h12v-9"/></svg><span data-t="tab.home">Acasă</span></button>
+      <button class="tab-btn" data-goto="body"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="6" r="3.2"/><path d="M8 21v-6.5c0-1.5.6-2.5 1.5-3.3M16 21v-6.5c0-1.5-.6-2.5-1.5-3.3M9.5 11.2h5"/></svg><span data-t="tab.bodyShort">Corp</span></button>
+      <button class="tab-btn" data-goto="feelings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20s-7-4.35-9.3-8.9C1.4 8.1 3 5 6.3 5c1.9 0 3.4 1.1 4.2 2.6C11.3 6.1 12.8 5 14.7 5 18 5 19.6 8.1 18.3 11.1 16 15.65 12 20 12 20Z"/></svg><span data-t="tab.feelShort">Emoții</span></button>
+      <button class="tab-btn" data-goto="consent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 4 6.5v5.2c0 4.8 3.4 7.9 8 9.3 4.6-1.4 8-4.5 8-9.3V6.5L12 3Z"/></svg><span data-t="tab.consentShort">Relații</span></button>
+      <button class="tab-btn" data-goto="health"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-4.5-9.5-9C1 8.5 2.5 5 6 5c2 0 3.5 1.2 4.5 2.8L12 9.2l1.5-1.4C14.5 6.2 16 5 18 5c3.5 0 5 3.5 3.5 7-2.5 4.5-9.5 9-9.5 9Z"/></svg><span data-t="tab.healthShort">Sănătate</span></button>
+      <button class="tab-btn" data-goto="qa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 11.5a8.4 8.4 0 0 1-8.9 8.4 8.9 8.9 0 0 1-3.5-.7L3 20l1.05-3.5A8.4 8.4 0 1 1 21 11.5Z"/></svg><span data-t="tab.qaShort">Q&A</span></button>
+    </div>
+  </nav>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============ STATIC TEXT DICTIONARY ============ */
+  const T = {
+    ro:{
+      brandName:"Ghidul Tău", brandSub:"SPAȚIU PRIVAT · FĂRĂ JUDECATĂ",
+      "tab.home":"Acasă","tab.body":"Corpul tău","tab.bodyShort":"Corp",
+      "tab.feelings":"Emoții & atracție","tab.feelShort":"Emoții",
+      "tab.consent":"Consimțământ & relații","tab.consentShort":"Relații",
+      "tab.health":"Sănătate & protecție","tab.healthShort":"Sănătate",
+      "tab.qa":"Întrebări & ajutor","tab.qaShort":"Q&A",
+      "home.eyebrow":"● FĂRĂ PREDICI · DOAR FAPTE",
+      "home.ctaHelp":"Ajutor acum",
+      "home.title":"Corpul tău. Sentimentele tale. Adevărul, <span class=\"accent\">fără ocolișuri</span>.",
+      "home.lead":"Adolescența aduce multe întrebări — unele ușor de pus cu voce tare, altele nu. Aici găsești răspunsuri clare, oneste, fără rușine și fără presiune.",
+      "home.note":"<b>Acest spațiu e doar al tău.</b> Nu se salvează nimic, nu trebuie să spui nimănui că l-ai citit. Poți sări peste orice capitol și reveni oricând.",
+      "home.p1t":"Privat","home.p1d":"Nimic din ce citești aici nu e urmărit sau trimis cuiva.",
+      "home.p2t":"Factual","home.p2d":"Informații verificate, fără mituri sau sperietori.",
+      "home.p3t":"Respectuos","home.p3d":"Fiecare persoană se dezvoltă în ritmul ei — nu există „normal” unic.",
+      "home.p4t":"Cu ieșire","home.p4d":"Îți arătăm mereu la cine poți apela dacă ai nevoie de ajutor real.",
+      "home.valuesNote":"Familiile au valori diferite despre sexualitate — unele mai deschise, altele mai conservatoare sau legate de credință. Acest ghid îți oferă informații, nu un verdict despre ce e „corect” pentru familia ta. Discuțiile cu părinții sau tutorii tăi rămân importante.",
+      "home.chaptersLabel":"CAPITOLE",
+      "home.l1":"Pubertate, schimbări, ciclul menstrual",
+      "home.l2":"Ce simți, atracție, identitate",
+      "home.l3":"Limite, respect, siguranță online",
+      "home.l4":"ITS, contracepție, igienă",
+      "home.l5":"Mituri, glosar, linii de suport",
+      "home.closeNote":"Dacă ceva din ce citești te neliniștește sau vrei să vorbești cu cineva, capitolul <b>Întrebări & ajutor</b> are numere de telefon gratuite și confidențiale.",
+      "body.eyebrow":"● CAPITOLUL 1",
+      "body.intro":"Pubertatea e procesul prin care corpul unui copil devine corpul unui adult tânăr. Începe și se termină diferit pentru fiecare — de obicei undeva între 8 și 16 ani. Nu e o cursă.",
+      "body.c1t":"Ce declanșează totul: hormonii",
+      "body.c1p":"Creierul începe să trimită semnale hormonale (estrogen, testosteron și alții) care pornesc toate schimbările fizice și multe dintre cele emoționale. Aceiași hormoni explică de ce dispoziția se poate schimba rapid în această perioadă — e biologie, nu un defect de caracter.",
+      "body.c2t":"Schimbări care pot apărea",
+      "body.c2sub":"Nu toate apar la toată lumea, nici în aceeași ordine — variația e normală.",
+      "body.c3t":"Ciclul menstrual, pe scurt",
+      "body.c3p1":"Menstruația e eliminarea lunară a mucoasei uterine când nu are loc o sarcină. Un ciclu durează în medie 21–35 de zile (poate fi neregulat în primii ani) iar sângerarea ține 3–7 zile.",
+      "body.c3p2":"Crampele ușoare, balonarea sau schimbările de dispoziție înainte de ciclu sunt frecvente. Dureri foarte puternice care te împiedică să funcționezi normal merită discutate cu un medic — nu trebuie să le „suporți” în tăcere.",
+      "body.padsT":"Absorbante, tampoane sau cupă menstruală?",
+      "body.padsSub":"Niciuna nu e „mai bună” — alegerea e personală, se poate schimba oricând.",
+      "body.c4t":"Anatomie, pe înțelesul tuturor",
+      "body.c4p":"Corpurile cu care ne naștem au organe reproducătoare interne și externe — la unele persoane predominant „feminine” (ovare, uter, vagin, vulvă), la altele „masculine” (testicule, penis), iar la unele persoane intersex o combinație a acestora. Toate variantele sunt corpuri normale și sănătoase.",
+      "body.c4p2":"Nu există o „mărime corectă” pentru nimic — organele genitale variază la fel de mult ca nasurile sau urechile, de la persoană la persoană.",
+      "body.c4sub":"Câteva organe interne, pe scurt:",
+      "body.warn":"Dacă observi ceva care te doare tare, nu se vindecă, sau te îngrijorează — un medic de familie sau un ginecolog/androlog nu e ceva de care să te temi. E treaba lor să te ajute, nu să te judece.",
+      "feel.eyebrow":"● CAPITOLUL 2",
+      "feel.intro":"Pe lângă schimbările fizice, adolescența aduce emoții mai intense, mai schimbătoare și, adesea, primele atracții romantice sau sexuale. Toate acestea sunt parte firească a dezvoltării.",
+      "feel.c1t":"De ce dispoziția se schimbă atât de repede",
+      "feel.c1p":"Creierul adolescentin e încă „în construcție” — partea care simte emoții intens se dezvoltă mai repede decât partea care le reglează. De aceea sentimentele pot părea copleșitoare uneori. Nu ești „prea sensibil”; e o etapă normală de dezvoltare.",
+      "feel.c2t":"Atracție și primele sentimente",
+      "feel.c2p1":"E complet normal să începi să simți atracție romantică sau fizică față de alte persoane — și e la fel de normal să nu simți încă nimic de acest fel. Nu există un „termen limită”.",
+      "feel.c2p2":"Atracția poate fi față de persoane de același gen, de gen diferit, de ambele, sau poți încă să nu știi — și e în regulă să nu ai un răspuns clar acum. Identitatea se poate clarifica în timp, în ritmul tău.",
+      "feel.c3t":"Orientare & identitate — câteva repere",
+      "feel.c3intro":"Trei lucruri diferite, des confundate: <b style=\"color:var(--text)\">sexul biologic</b> (corpul cu care te-ai născut), <b style=\"color:var(--text)\">identitatea de gen</b> (cine simți că ești — băiat, fată, ambele, niciuna) și <b style=\"color:var(--text)\">orientarea sexuală</b> (față de cine simți atracție). Nu se determină una pe cealaltă.",
+      "feel.c3p":"Nu trebuie să ai o etichetă acum, și nici să o păstrezi pentru totdeauna dacă alegi una. E ok să explorezi cine ești, în siguranță și în ritmul tău.",
+      "feel.c3p2":"Dacă întâmpini tachinări, respingere sau tratament nedrept legat de cine ești sau pe cine iubești, asta nu spune nimic despre valoarea ta. Un consilier școlar, Telefonul Copilului sau un adult de încredere pot fi un sprijin real.",
+      "feel.c4t":"Imaginea corporală",
+      "feel.c4p":"În perioada asta corpul se schimbă vizibil, iar comparațiile — mai ales cele de pe rețele sociale — pot afecta cum te vezi. Corpurile din poze sunt adesea filtrate sau editate. Corpul tău real, în schimbare, nu e o greșeală care trebuie corectată.",
+      "feel.c4p2":"Corpul tău nu e doar ceva de privit — e ceea ce te duce pe munte, te lasă să dansezi prost și cu poftă, te îmbrățișează pe cineva drag. Merită apreciere pentru ce face, nu doar verdict pentru cum arată.",
+      "feel.groundT":"Când emoția e prea mare, chiar acum",
+      "feel.groundSub":"O tehnică simplă de ancorare, pentru momentul în care simți că te copleșește:",
+      "feel.close":"Dacă emoțiile devin copleșitoare pentru perioade lungi — tristețe constantă, anxietate care nu trece, gânduri că nu ești în regulă — merită să vorbești cu un adult de încredere sau un consilier școlar. Nu trebuie să treci prin asta singur.",
+      "feel.selfharm":"Dacă îți vin vreodată gânduri de a-ți face rău, spune cuiva imediat — unui adult de încredere sau la 116 111 — chiar dacă pare fără legătură cu ce citești acum. Nu trebuie să aștepți să fie „suficient de grav”.",
+      "cons.eyebrow":"● CAPITOLUL 3",
+      "cons.intro":"Consimțământul înseamnă acordul liber, clar și continuu al unei persoane pentru orice formă de contact fizic sau apropiere. E unul dintre cele mai importante lucruri de înțeles — pentru tine și pentru ceilalți.",
+      "cons.c1t":"Corpul tău îți aparține",
+      "cons.c1p":"Ai dreptul deplin asupra propriului corp. Nimeni — indiferent de vârstă, relație sau statut — nu are dreptul să te atingă, să te sărute sau să se apropie fizic de tine fără acordul tău clar. Iar tu ai aceeași obligație față de ceilalți.",
+      "cons.c2t":"„Da” arată așa",
+      "cons.c2p":"Un consimțământ real e dat liber (fără presiune, frică sau manipulare), clar (comunicat, nu presupus), specific (pentru un lucru anume, nu „tot ce urmează”) și poate fi retras oricând — chiar și după ce ai spus „da” inițial.",
+      "cons.c2bt":"Vârsta consimțământului, în România",
+      "cons.c2bp":"Din 2024, legea românească stabilește că o persoană sub 16 ani nu poate da un consimțământ valabil pentru relații sexuale cu cineva semnificativ mai în vârstă. Asta te protejează pe tine — indiferent ce spune sau promite adultul respectiv, legea e de partea ta.",
+      "cons.sayNoT":"Cum spui „nu”, concret",
+      "cons.sayNoSub":"Nu ai nevoie de un motiv elaborat. Câteva variante care funcționează:",
+      "cons.talkT":"Cum vorbești despre protecție, cu un partener",
+      "cons.talkSub":"O discuție incomodă e mai ușoară cu fraze pregătite din timp:",
+      "cons.assaultT":"Agresiunea sexuală — ce înseamnă și ce poți face",
+      "cons.assaultP1":"Agresiunea sexuală înseamnă orice contact sau act sexual impus fără consimțământ — prin forță, amenințare, manipulare, sau asupra unei persoane care nu putea consimți (din cauza vârstei, somnului, substanțelor sau altor motive). Se poate întâmpla între străini, dar și în relații, familii sau prietenii — indiferent cine e implicat, nu e niciodată vina persoanei agresate.",
+      "cons.assaultP2":"Dacă ți s-a întâmplat, chiar recent: ajungi într-un loc sigur, spui unui adult de încredere sau suni la <b style=\"color:var(--text)\">112</b> ori <b style=\"color:var(--text)\">116 111</b>. Dacă poți, evită să te speli sau să arunci hainele purtate până vorbești cu cineva — pot conta ca dovezi, dacă alegi să faci o plângere, deși alegerea rămâne mereu a ta.",
+      "cons.peerT":"Presiunea grupului",
+      "cons.peerP":"„Toată lumea a făcut-o deja” e, aproape mereu, o exagerare — adolescenții tind constant să supraestimeze cât de „activi” sunt colegii lor. Ritmul tău nu trebuie să se potrivească cu ce crezi tu că fac ceilalți.",
+      "cons.byT":"Dacă un prieten are nevoie de ajutor",
+      "cons.byP":"Dacă vezi un prieten presat, controlat sau speriat de cineva, nu trebuie să rezolvi tu situația. Poți întreba discret dacă e bine, poți rămâne aproape, și poți încuraja să vorbească cu un adult de încredere sau să sune la 116 111.",
+      "cons.compareLabel":"RELAȚII SĂNĂTOASE VS. NESĂNĂTOASE",
+      "cons.goodLabel":"SĂNĂTOASĂ","cons.badLabel":"RISC",
+      "cons.compareWhy":"Diferența nu ține de câte cadouri sau mesaje primești, ci de putere: iubirea reală te lasă liber; controlul îți restrânge treptat libertatea și te face să depinzi tot mai mult de cealaltă persoană.",
+      "cons.c3t":"Siguranță online",
+      "cons.c3p1":"Trimiterea de poze intime („sexting”) — chiar și către cineva de încredere — nu mai poate fi controlată odată trimisă: poate fi salvată, distribuită sau folosită împotriva ta. Legea tratează imaginile intime cu minori ca fiind ilegale, indiferent cine le-a trimis sau primit.",
+      "cons.c3p2":"Fii atent la persoane — online sau nu — care: îți cer să păstrezi secrete față de părinți, te izolează de prieteni, îți oferă cadouri sau atenție excesivă și apoi cer ceva în schimb, sau insistă să treci de la un chat public la unul privat rapid. Aceste tipare merită discutate cu un adult de încredere, chiar dacă persoana pare „drăguță”.",
+      "cons.c3secret":"O distincție importantă: a citi în privat despre aceste teme (ca aici) nu e același lucru cu a ține o relație sau o persoană secretă față de părinți. Informarea privată e sănătoasă; secretul cerut de altcineva despre o relație anume e adesea un semnal de alarmă.",
+      "cons.c3p3":"Dacă ceva de genul ți s-a întâmplat sau se întâmplă acum: nu e vina ta. Poți suna gratuit și confidențial la <b style=\"color:var(--text)\">116 111</b> (vezi capitolul Ajutor).",
+      "cons.warn":"<b>Refuzul e mereu valabil.</b> „Nu”, tăcerea, ezitarea sau retragerea fizică înseamnă nu. Nimeni nu „merită” insistență, iar a spune nu — oricui, oricând — nu are nevoie de explicații.",
+      "hlth.eyebrow":"● CAPITOLUL 4",
+      "hlth.intro":"Informații de bază, factuale — nu instrucțiuni. Pentru orice decizie concretă, un medic de familie, un ginecolog sau un cabinet de planning familial pot răspunde confidențial și fără judecată.",
+      "hlth.whatT":"Ce înseamnă, de fapt, „sex”",
+      "hlth.whatP1":"„Sex” nu înseamnă un singur lucru. Include contactul vaginal, oral și anal, dar și atingerea reciprocă a corpurilor fără penetrare. Toate sunt forme reale de activitate sexuală, cu riscuri diferite.",
+      "hlth.whatP2":"O sarcină poate apărea doar în urma contactului vaginal. ITS, în schimb, se pot transmite prin oricare dintre aceste forme de contact — inclusiv prin sex oral, care e adesea considerat greșit „fără risc”.",
+      "hlth.c0t":"Cum apare o sarcină",
+      "hlth.c0p1":"O sarcină apare când un spermatozoid fecundează un ovul, de obicei în urma unui contact sexual cu penetrare vaginală. Ovulul e eliberat lunar dintr-un ovar (ovulație) și poate fi fecundat doar într-o fereastră scurtă din ciclu — dar pentru că momentul ovulației variază, mai ales la cicluri neregulate, „calculul zilelor sigure” nu e o metodă de protecție de încredere.",
+      "hlth.c0p2":"Sarcina poate apărea și fără o ejaculare completă în interior, dacă lichidul preseminal ajunge în contact cu vaginul.",
+      "hlth.pregT":"Dacă apare o sarcină neplanificată",
+      "hlth.pregP1":"Există mai multe variante posibile (continuarea sarcinii, adopția, sau întreruperea ei, unde legea permite) — care e potrivită depinde de context, valori personale sau de familie, și e o decizie care se ia cu ajutor medical și adesea cu susținerea unui adult de încredere. Cel mai important e să vorbești cu cineva cât mai repede — un părinte, un medic sau un cabinet de planning familial pot explica opțiunile concrete, confidențial.",
+      "hlth.stiListT":"Cele mai frecvente ITS, pe scurt",
+      "hlth.stiListP":"Riscul există la orice tip de cuplu, indiferent de genul partenerilor — protecția și testarea contează la fel de mult pentru toată lumea.",
+      "hlth.testing":"Testarea pentru ITS e, de obicei, gratuită și confidențială la cabinetele de boli infecțioase sau planning familial — inclusiv pentru minori, în multe cazuri fără să fie nevoie de acordul unui părinte pentru testare (deși tratamentul poate necesita implicarea unui adult).",
+      "hlth.c1t":"Infecții cu transmitere sexuală (ITS)",
+      "hlth.c1p1":"ITS sunt infecții care se pot transmite prin contact sexual. Multe (ex: chlamydia, HPV) nu dau simptome vizibile la început, motiv pentru care testarea contează, nu doar „a te simți bine”.",
+      "hlth.c1p2":"Vestea bună: majoritatea ITS sunt tratabile, iar riscul poate fi redus semnificativ prin folosirea corectă a prezervativului și prin testare regulată odată ce cineva devine activ sexual.",
+      "hlth.c1p3":"Vaccinul HPV, recomandat de obicei în jurul acestei vârste, reduce mult riscul câtorva tipuri de cancer și infecții cauzate de acest virus. Merită o discuție cu un medic sau cu un părinte/tutore.",
+      "hlth.c2t":"Contracepție — categorii generale",
+      "hlth.c2p":"Există mai multe tipuri de metode contraceptive, cu grade diferite de eficiență și disponibile doar prin recomandare medicală pentru majoritatea (în afară de prezervativ):",
+      "hlth.c2p2":"Prezervativul e singura metodă care protejează și împotriva ITS, nu doar a sarcinii. Nicio metodă, în afară de abstinență, nu oferă protecție 100%.",
+      "hlth.condomT":"Prezervativul, folosit corect",
+      "hlth.condomSub":"Cele mai multe eșecuri vin din folosirea greșită, nu din metodă în sine.",
+      "hlth.mastT":"Masturbarea",
+      "hlth.mastP":"Atingerea propriului corp de plăcere e o parte normală și obișnuită a descoperirii de sine, la orice gen. Nu dăunează fizic, nu „epuizează” nimic și nu are legătură cu câtă atracție simți față de alte persoane. Singura condiție reală: să rămână un moment privat.",
+      "hlth.readyT":"Ești pregătit(ă) pentru asta?",
+      "hlth.readySub":"Nu există o vârstă „corectă” universală. Există, în schimb, câteva întrebări utile:",
+      "hlth.readyP":"Dacă răspunsul la oricare dintre acestea te face nesigur(ă), e un semnal bun să mai aștepți.",
+      "hlth.c3t":"Igienă zilnică",
+      "hlth.close":"Nu e nimic rușinos în a merge la un medic pentru întrebări legate de corp sau sexualitate. Consultațiile medicale legate de sănătatea sexuală sunt, de regulă, confidențiale.",
+      "qa.eyebrow":"● CAPITOLUL 5",
+      "qa.intro":"Întrebările pe care mulți adolescenți le au, dar rar le pun cu voce tare. Atinge un cartonaș pentru răspuns.",
+      "qa.hint":"Atinge un cartonaș pentru răspuns — atinge-l din nou pentru a-l închide.",
+      "qa.glossaryLabel":"GLOSAR","qa.glossPh":"Caută un termen…",
+      "qa.helpLabel":"LA CINE POȚI APELA",
+      "qa.tier1":"<b>Chiar acum ești în pericol</b> (tu sau altcineva) — sună imediat la <b>112</b>. Nu aștepta să fii sigur — mai bine suni degeaba decât să nu suni deloc.",
+      "qa.tier2":"<b>Ceva s-a întâmplat recent</b> — un abuz, o poză trimisă fără voia ta, o presiune serioasă — sună confidențial la <b>116 111</b> (Telefonul Copilului), gratuit, oricând.",
+      "qa.tier3":"<b>Doar vrei să vorbești sau ești îngrijorat</b> — un adult de încredere, un consilier școlar sau tot 116 111 pot asculta fără să fie o urgență.",
+      "qa.crisis":"Dacă tu sau cineva pe care îl cunoști ești în pericol imediat, sună <b>112</b>. Nu ești singur — există mereu cineva care poate ajuta chiar acum.",
+      "footer.credit":"Realizat ca resursă psihoeducațională de <a href=\"https://psyalexsimion.com\" target=\"_blank\" rel=\"noopener\">psyalexsimion.com</a>. Nu înlocuiește sfatul unui medic, psiholog sau părinte/tutore."
+    },
+    en:{
+      brandName:"Your Guide", brandSub:"PRIVATE SPACE · NO JUDGMENT",
+      "tab.home":"Home","tab.body":"Your Body","tab.bodyShort":"Body",
+      "tab.feelings":"Feelings & Attraction","tab.feelShort":"Feelings",
+      "tab.consent":"Consent & Relationships","tab.consentShort":"Relations",
+      "tab.health":"Health & Protection","tab.healthShort":"Health",
+      "tab.qa":"Questions & Help","tab.qaShort":"Q&A",
+      "home.eyebrow":"● NO LECTURES · JUST FACTS",
+      "home.ctaHelp":"Get help now",
+      "home.title":"Your body. Your feelings. The truth, <span class=\"accent\">straight up</span>.",
+      "home.lead":"Being a teen brings a lot of questions — some easy to say out loud, some not. Here you'll find clear, honest answers, without shame and without pressure.",
+      "home.note":"<b>This space is just for you.</b> Nothing is saved, and you don't have to tell anyone you read it. Skip any chapter and come back anytime.",
+      "home.p1t":"Private","home.p1d":"Nothing you read here is tracked or sent to anyone.",
+      "home.p2t":"Factual","home.p2d":"Checked information, no myths or scare tactics.",
+      "home.p3t":"Respectful","home.p3d":"Everyone develops at their own pace — there's no single \"normal\".",
+      "home.p4t":"With an exit","home.p4d":"We always show who you can reach out to for real help.",
+      "home.valuesNote":"Families hold different values about sexuality — some more open, some more conservative or faith-based. This guide gives you information, not a verdict on what's \"right\" for your family. Conversations with your parents or guardians still matter.",
+      "home.chaptersLabel":"CHAPTERS",
+      "home.l1":"Puberty, changes, the menstrual cycle",
+      "home.l2":"What you feel, attraction, identity",
+      "home.l3":"Boundaries, respect, online safety",
+      "home.l4":"STIs, contraception, hygiene",
+      "home.l5":"Myths, glossary, support lines",
+      "home.closeNote":"If anything here worries you or you want to talk to someone, the <b>Questions & Help</b> chapter has free, confidential phone numbers.",
+      "body.eyebrow":"● CHAPTER 1",
+      "body.intro":"Puberty is the process where a child's body becomes a young adult's body. It starts and ends differently for everyone — usually somewhere between ages 8 and 16. It's not a race.",
+      "body.c1t":"What starts it all: hormones",
+      "body.c1p":"Your brain starts sending hormonal signals (estrogen, testosterone and others) that kick off all the physical changes and many of the emotional ones. The same hormones explain why mood can shift quickly during this time — it's biology, not a character flaw.",
+      "body.c2t":"Changes that may happen",
+      "body.c2sub":"Not everyone gets all of these, or in the same order — variation is normal.",
+      "body.c3t":"The menstrual cycle, briefly",
+      "body.c3p1":"A period is the monthly shedding of the uterine lining when no pregnancy occurs. A cycle lasts 21–35 days on average (it can be irregular in the first years), and bleeding lasts 3–7 days.",
+      "body.c3p2":"Mild cramps, bloating, or mood changes before a period are common. Very strong pain that stops you from functioning normally is worth discussing with a doctor — you don't have to just \"push through\" it.",
+      "body.padsT":"Pads, tampons, or a menstrual cup?",
+      "body.padsSub":"None is \"better\" — it's a personal choice, and you can switch anytime.",
+      "body.c4t":"Anatomy, in plain terms",
+      "body.c4p":"The bodies we're born with have internal and external reproductive organs — for some people mostly \"female\" (ovaries, uterus, vagina, vulva), for others \"male\" (testicles, penis), and for some intersex people a combination of both. All of these are normal, healthy bodies.",
+      "body.c4p2":"There's no \"correct size\" for anything — genitals vary just as much as noses or ears do, from person to person.",
+      "body.c4sub":"A few internal organs, briefly:",
+      "body.warn":"If you notice something that hurts a lot, doesn't heal, or worries you — a family doctor or a gynecologist/urologist isn't something to fear. It's their job to help you, not judge you.",
+      "feel.eyebrow":"● CHAPTER 2",
+      "feel.intro":"Alongside physical changes, adolescence brings more intense, more shifting emotions, and often the first romantic or sexual attractions. All of this is a normal part of development.",
+      "feel.c1t":"Why moods shift so fast",
+      "feel.c1p":"The teenage brain is still \"under construction\" — the part that feels emotions intensely develops faster than the part that regulates them. That's why feelings can seem overwhelming sometimes. You're not \"too sensitive\"; it's a normal stage of development.",
+      "feel.c2t":"Attraction and first feelings",
+      "feel.c2p1":"It's completely normal to start feeling romantic or physical attraction toward others — and just as normal to not feel any of that yet. There's no \"deadline\".",
+      "feel.c2p2":"Attraction can be toward people of the same gender, a different gender, both, or you might still not know — and it's fine not to have a clear answer right now. Identity can become clearer over time, at your own pace.",
+      "feel.c3t":"Orientation & identity — a few pointers",
+      "feel.c3intro":"Three different things, often confused: <b style=\"color:var(--text)\">biological sex</b> (the body you were born with), <b style=\"color:var(--text)\">gender identity</b> (who you feel you are — a boy, a girl, both, neither), and <b style=\"color:var(--text)\">sexual orientation</b> (who you're attracted to). None of these determines the others.",
+      "feel.c3p":"You don't need a label right now, and you don't have to keep one forever if you pick one. It's okay to explore who you are, safely and at your own pace.",
+      "feel.c3p2":"If you face teasing, rejection, or unfair treatment because of who you are or who you love, that says nothing about your worth. A school counselor, the Child Helpline, or a trusted adult can be real support.",
+      "feel.c4t":"Body image",
+      "feel.c4p":"During this time your body changes visibly, and comparisons — especially on social media — can affect how you see yourself. Bodies in photos are often filtered or edited. Your real, changing body isn't a mistake that needs fixing.",
+      "feel.c4p2":"Your body isn't just something to look at — it's what takes you up a mountain, lets you dance badly and joyfully, hugs someone you love. It deserves appreciation for what it does, not just a verdict on how it looks.",
+      "feel.groundT":"When a feeling is too big, right now",
+      "feel.groundSub":"A simple grounding technique for when something feels overwhelming:",
+      "feel.close":"If emotions become overwhelming for long stretches — constant sadness, anxiety that doesn't pass, thoughts that something is wrong with you — it's worth talking to a trusted adult or a school counselor. You don't have to go through it alone.",
+      "feel.selfharm":"If you ever have thoughts of hurting yourself, tell someone right away — a trusted adult or the helpline — even if it seems unrelated to what you're reading now. You don't have to wait until it feels \"bad enough\".",
+      "cons.eyebrow":"● CHAPTER 3",
+      "cons.intro":"Consent means a person's free, clear, and ongoing agreement to any form of physical contact or closeness. It's one of the most important things to understand — for you and for others.",
+      "cons.c1t":"Your body belongs to you",
+      "cons.c1p":"You have full rights over your own body. No one — regardless of age, relationship, or status — has the right to touch, kiss, or get physically close to you without your clear agreement. And you have the same obligation toward others.",
+      "cons.c2t":"What \"yes\" looks like",
+      "cons.c2p":"Real consent is given freely (no pressure, fear, or manipulation), clearly (communicated, not assumed), specifically (for one particular thing, not \"everything that follows\"), and can be withdrawn at any time — even after an initial \"yes\".",
+      "cons.c2bt":"The age of consent in Romania",
+      "cons.c2bp":"Since 2024, Romanian law states that a person under 16 cannot give valid consent to a sexual relationship with someone significantly older. This protects you — no matter what that adult says or promises, the law is on your side.",
+      "cons.sayNoT":"How to actually say \"no\"",
+      "cons.sayNoSub":"You don't need an elaborate reason. A few lines that work:",
+      "cons.talkT":"How to talk about protection, with a partner",
+      "cons.talkSub":"An awkward conversation is easier with lines prepared ahead of time:",
+      "cons.assaultT":"Sexual assault — what it means and what you can do",
+      "cons.assaultP1":"Sexual assault means any sexual contact or act forced without consent — through force, threats, manipulation, or against someone who couldn't consent (due to age, sleep, substances, or other reasons). It can happen between strangers, but also within relationships, families, or friendships — whoever is involved, it is never the fault of the person assaulted.",
+      "cons.assaultP2":"If this has happened to you, even recently: get to a safe place, tell a trusted adult, or call <b style=\"color:var(--text)\">112</b> or the <b style=\"color:var(--text)\">Child Helpline</b>. If you can, avoid washing or throwing away the clothes you were wearing until you've talked to someone — they may count as evidence if you choose to report, though the choice is always yours.",
+      "cons.peerT":"Peer pressure",
+      "cons.peerP":"\"Everyone's already done it\" is almost always an exaggeration — teens consistently overestimate how \"active\" their peers actually are. Your pace doesn't need to match what you assume everyone else is doing.",
+      "cons.byT":"If a friend needs help",
+      "cons.byP":"If you see a friend being pressured, controlled, or scared by someone, you don't have to fix it yourself. You can quietly check in, stay close, and encourage them to talk to a trusted adult or call the helpline.",
+      "cons.compareLabel":"HEALTHY VS. UNHEALTHY RELATIONSHIPS",
+      "cons.goodLabel":"HEALTHY","cons.badLabel":"WARNING SIGN",
+      "cons.compareWhy":"The difference isn't about how many gifts or messages you get — it's about power: real love leaves you free; control gradually narrows your freedom and makes you more and more dependent on the other person.",
+      "cons.c3t":"Online safety",
+      "cons.c3p1":"Sending intimate photos (\"sexting\") — even to someone you trust — can't be controlled once sent: it can be saved, shared, or used against you. The law treats intimate images of minors as illegal, regardless of who sent or received them.",
+      "cons.c3p2":"Watch for people — online or not — who: ask you to keep secrets from your parents, isolate you from friends, shower you with gifts or attention and then ask for something in return, or push to move from a public chat to a private one quickly. These patterns are worth discussing with a trusted adult, even if the person seems \"nice\".",
+      "cons.c3secret":"An important distinction: reading privately about these topics (like here) is not the same as keeping a relationship or a person secret from your parents. Private learning is healthy; secrecy demanded by someone else about a specific relationship is often a warning sign.",
+      "cons.c3p3":"If something like this has happened or is happening to you: it is not your fault. You can call for free and confidentially at <b style=\"color:var(--text)\">116 111</b> (see the Help chapter).",
+      "cons.warn":"<b>Refusal always counts.</b> \"No\", silence, hesitation, or pulling away physically all mean no. No one \"deserves\" persistence, and saying no — to anyone, at any time — needs no explanation.",
+      "hlth.eyebrow":"● CHAPTER 4",
+      "hlth.intro":"Basic, factual information — not instructions. For any concrete decision, a family doctor, gynecologist, or family-planning clinic can answer confidentially and without judgment.",
+      "hlth.whatT":"What \"sex\" actually means",
+      "hlth.whatP1":"\"Sex\" isn't just one thing. It includes vaginal, oral, and anal contact, as well as mutual touching without penetration. All of these are real forms of sexual activity, with different risks.",
+      "hlth.whatP2":"Pregnancy can only happen from vaginal contact. STIs, on the other hand, can be passed through any of these types of contact — including oral sex, which is often wrongly assumed to be \"risk-free\".",
+      "hlth.c0t":"How pregnancy happens",
+      "hlth.c0p1":"Pregnancy happens when a sperm fertilizes an egg, usually following sexual contact involving vaginal penetration. An egg is released monthly from an ovary (ovulation) and can only be fertilized during a short window of the cycle — but because the timing of ovulation varies, especially with irregular cycles, \"counting safe days\" isn't a reliable protection method.",
+      "hlth.c0p2":"Pregnancy can also happen without full ejaculation inside, if pre-ejaculate fluid comes into contact with the vagina.",
+      "hlth.pregT":"If an unplanned pregnancy happens",
+      "hlth.pregP1":"Several options exist (continuing the pregnancy, adoption, or ending it, where the law allows) — which one fits depends on context, personal or family values, and it's a decision made with medical guidance and often the support of a trusted adult. The most important thing is to talk to someone as soon as possible — a parent, a doctor, or a family-planning clinic can explain the concrete options, confidentially.",
+      "hlth.stiListT":"The most common STIs, briefly",
+      "hlth.stiListP":"The risk exists for any type of couple, regardless of partners' gender — protection and testing matter equally for everyone.",
+      "hlth.testing":"STI testing is usually free and confidential at infectious disease clinics or family-planning centers — including for minors, in many cases without needing a parent's consent for testing (though treatment may require an adult's involvement).",
+      "hlth.c1t":"Sexually transmitted infections (STIs)",
+      "hlth.c1p1":"STIs are infections that can be passed through sexual contact. Many (e.g. chlamydia, HPV) show no visible symptoms at first, which is why testing matters, not just \"feeling fine\".",
+      "hlth.c1p2":"The good news: most STIs are treatable, and risk can be significantly reduced by using condoms correctly and getting tested regularly once someone becomes sexually active.",
+      "hlth.c1p3":"The HPV vaccine, usually recommended around this age, greatly reduces the risk of several cancers and infections caused by this virus. It's worth a conversation with a doctor or a parent/guardian.",
+      "hlth.c2t":"Contraception — general categories",
+      "hlth.c2p":"There are several types of contraceptive methods, with different effectiveness levels, and most require a medical prescription (aside from condoms):",
+      "hlth.c2p2":"Condoms are the only method that also protects against STIs, not just pregnancy. No method other than abstinence offers 100% protection.",
+      "hlth.condomT":"Condoms, used correctly",
+      "hlth.condomSub":"Most failures come from incorrect use, not from the method itself.",
+      "hlth.mastT":"Masturbation",
+      "hlth.mastP":"Touching your own body for pleasure is a normal, common part of getting to know yourself, for any gender. It's not physically harmful, doesn't \"use anything up\", and has nothing to do with how much attraction you feel toward others. The one real condition: it stays a private moment.",
+      "hlth.readyT":"Are you ready for this?",
+      "hlth.readySub":"There's no universal \"right\" age. But a few useful questions:",
+      "hlth.readyP":"If the answer to any of these makes you unsure, that's a good sign to wait.",
+      "hlth.c3t":"Daily hygiene",
+      "hlth.close":"There's nothing shameful about seeing a doctor with questions about your body or sexuality. Medical visits about sexual health are usually confidential.",
+      "qa.eyebrow":"● CHAPTER 5",
+      "qa.intro":"The questions many teens have but rarely ask out loud. Tap a card for the answer.",
+      "qa.hint":"Tap a card for the answer — tap again to close it.",
+      "qa.glossaryLabel":"GLOSSARY","qa.glossPh":"Search a term…",
+      "qa.helpLabel":"WHO YOU CAN REACH OUT TO",
+      "qa.tier1":"<b>You're in danger right now</b> (you or someone else) — call <b>112</b> immediately. Don't wait to be sure — it's better to call and not need it than not to call.",
+      "qa.tier2":"<b>Something happened recently</b> — abuse, an unwanted photo sent, serious pressure — call the Child Helpline confidentially at <b>116 111</b>, free, anytime.",
+      "qa.tier3":"<b>You just want to talk or you're worried</b> — a trusted adult, a school counselor, or the helpline can listen even if it isn't an emergency.",
+      "footer.credit":"Made as a psychoeducational resource by <a href=\"https://psyalexsimion.com\" target=\"_blank\" rel=\"noopener\">psyalexsimion.com</a>. This does not replace advice from a doctor, psychologist, or parent/guardian."
+    }
+  };
+
+  /* ============ DYNAMIC CONTENT DATA ============ */
+  const D = {
+    bodyChecklist:[
+      {ro:"Creștere rapidă în înălțime și schimbări de greutate",en:"Rapid height growth and weight changes"},
+      {ro:"Apariția părului facial, axial și pubian",en:"Facial, underarm and pubic hair growth"},
+      {ro:"Voce mai groasă (mai ales la băieți)",en:"Deeper voice (especially in boys)"},
+      {ro:"Dezvoltarea sânilor / lărgirea umerilor și a bazinului",en:"Breast development / broadening shoulders or hips"},
+      {ro:"Piele mai grasă, posibil acnee",en:"Oilier skin, possible acne"},
+      {ro:"Transpirație cu miros mai puternic",en:"Stronger-smelling sweat"},
+      {ro:"Prima menstruație sau primele ejaculări nocturne",en:"First period or first nighttime ejaculations (\"wet dreams\")"},
+      {ro:"Erecții mai frecvente, uneori fără motiv aparent",en:"More frequent erections, sometimes with no clear cause"}
+    ],
+    periodTips:[
+      {ro:"Ține la îndemână absorbante/tampoane de rezervă — la școală, în geantă",en:"Keep spare pads/tampons handy — at school, in your bag"},
+      {ro:"Durerea se poate calma cu căldură locală sau analgezice recomandate de un medic",en:"Pain can often be eased with local heat or a doctor-recommended pain reliever"},
+      {ro:"Un ciclu neregulat în primii 1-2 ani e frecvent, nu neapărat o problemă",en:"An irregular cycle in the first 1-2 years is common, not necessarily a problem"}
+    ],
+    padsList:[
+      {ro:"<b style='color:var(--text)'>Absorbante externe</b> — se lipesc de lenjerie, ușor de folosit de la început, se schimbă la 4-6 ore",en:"<b style='color:var(--text)'>Pads</b> — stick to underwear, easiest to start with, changed every 4-6 hours"},
+      {ro:"<b style='color:var(--text)'>Tampoane</b> — introduse intern, nu se simt dacă sunt puse corect, schimbate la 4-8 ore",en:"<b style='color:var(--text)'>Tampons</b> — inserted internally, not felt if placed correctly, changed every 4-8 hours"},
+      {ro:"<b style='color:var(--text)'>Cupa menstruală</b> — reutilizabilă, ține până la 12 ore, necesită puțin exercițiu la început",en:"<b style='color:var(--text)'>Menstrual cup</b> — reusable, lasts up to 12 hours, takes a little practice at first"}
+    ],
+    anatomyList:[
+      {ro:"<b style='color:var(--text)'>Ovare</b> — produc ovule și hormoni",en:"<b style='color:var(--text)'>Ovaries</b> — produce eggs and hormones"},
+      {ro:"<b style='color:var(--text)'>Trompe uterine</b> — leagă ovarele de uter, aici are loc de obicei fecundarea",en:"<b style='color:var(--text)'>Fallopian tubes</b> — connect the ovaries to the uterus; fertilization usually happens here"},
+      {ro:"<b style='color:var(--text)'>Uter</b> — unde s-ar dezvolta o sarcină",en:"<b style='color:var(--text)'>Uterus</b> — where a pregnancy would develop"},
+      {ro:"<b style='color:var(--text)'>Testicule</b> — produc spermatozoizi și testosteron",en:"<b style='color:var(--text)'>Testicles</b> — produce sperm and testosterone"},
+      {ro:"<b style='color:var(--text)'>Prostată</b> — produce parte din lichidul seminal",en:"<b style='color:var(--text)'>Prostate</b> — produces part of the seminal fluid"}
+    ],
+    identityList:[
+      {ro:"<b style='color:var(--text)'>Heterosexual</b> — atracție față de gen diferit",en:"<b style='color:var(--text)'>Heterosexual</b> — attracted to a different gender"},
+      {ro:"<b style='color:var(--text)'>Homosexual / gay / lesbiană</b> — atracție față de același gen",en:"<b style='color:var(--text)'>Gay / lesbian</b> — attracted to the same gender"},
+      {ro:"<b style='color:var(--text)'>Bisexual</b> — atracție față de mai mult de un gen",en:"<b style='color:var(--text)'>Bisexual</b> — attracted to more than one gender"},
+      {ro:"<b style='color:var(--text)'>Asexual</b> — atracție sexuală redusă sau absentă",en:"<b style='color:var(--text)'>Asexual</b> — little or no sexual attraction"},
+      {ro:"<b style='color:var(--text)'>Încă nu știu</b> — și e complet ok să fie așa",en:"<b style='color:var(--text)'>Still figuring it out</b> — and that's completely fine"}
+    ],
+    groundList:[
+      {ro:"Numește 5 lucruri pe care le vezi în jurul tău, chiar acum",en:"Name 5 things you can see around you, right now"},
+      {ro:"Numește 4 lucruri pe care le poți atinge",en:"Name 4 things you can touch"},
+      {ro:"Numește 3 sunete pe care le auzi",en:"Name 3 sounds you can hear"},
+      {ro:"Respiră încet: inspiră 4 secunde, expiră 6 secunde, de 3 ori",en:"Breathe slowly: inhale for 4 seconds, exhale for 6, three times"}
+    ],
+    sayNoList:[
+      {ro:"„Nu vreau asta.”",en:"\"I don't want this.\""},
+      {ro:"„Nu sunt pregătit(ă).”",en:"\"I'm not ready.\""},
+      {ro:"„Hai să ne oprim aici.”",en:"\"Let's stop here.\""},
+      {ro:"„Nu-ți pot explica de ce — pur și simplu nu.”",en:"\"I don't have to explain why — it's just no.\""}
+    ],
+    talkList:[
+      {ro:"„Înainte să continuăm, ai la tine un prezervativ?”",en:"\"Before we go further, do you have a condom?\""},
+      {ro:"„Vreau să vorbim despre protecție — pentru amândoi.”",en:"\"I want to talk about protection — for both of us.\""},
+      {ro:"„Dacă nu avem protecție, nu facem asta acum.”",en:"\"If we don't have protection, we're not doing this right now.\""},
+      {ro:"„Te-ai testat vreodată pentru ITS?”",en:"\"Have you ever been tested for STIs?\""}
+    ],
+    consPrinciples:[
+      {ro:"Poți spune „nu” oricând, chiar dacă ai spus „da” înainte",en:"You can say \"no\" at any time, even after saying \"yes\" before"},
+      {ro:"Nimeni nu-ți „datorează” apropiere fizică pentru un cadou, o atenție sau o relație",en:"No one \"owes\" you physical closeness for a gift, attention, or a relationship"},
+      {ro:"A fi tăcut sau a nu te opune activ NU înseamnă consimțământ",en:"Being silent or not actively resisting does NOT mean consent"}
+    ],
+    consGood:[
+      {ro:"Respectă un „nu” fără să insiste",en:"Respects a \"no\" without pushing"},
+      {ro:"Te încurajează să ai și alți prieteni",en:"Encourages you to have other friends"},
+      {ro:"Comunică deschis, chiar când nu sunteți de acord",en:"Communicates openly, even in disagreement"},
+      {ro:"Se bucură sincer de reușitele tale",en:"Is genuinely happy about your wins"}
+    ],
+    consBad:[
+      {ro:"Insistă după ce ai spus „nu”",en:"Keeps pushing after you say \"no\""},
+      {ro:"Te izolează de familie sau prieteni",en:"Isolates you from family or friends"},
+      {ro:"Îți verifică telefonul sau te controlează constant",en:"Checks your phone or controls you constantly"},
+      {ro:"Amenință, umilește sau te învinovățește des",en:"Threatens, humiliates, or blames you often"}
+    ],
+    stiList:[
+      {ro:"<b style='color:var(--text)'>Chlamydia</b> — foarte frecventă, adesea fără simptome, ușor tratabilă cu antibiotice",en:"<b style='color:var(--text)'>Chlamydia</b> — very common, often no symptoms, easily treated with antibiotics"},
+      {ro:"<b style='color:var(--text)'>Gonoree</b> — poate da usturime sau secreții, tratabilă cu antibiotice",en:"<b style='color:var(--text)'>Gonorrhea</b> — can cause burning or discharge, treatable with antibiotics"},
+      {ro:"<b style='color:var(--text)'>Herpes genital</b> — provoacă vezicule/răni recurente, nu se vindecă complet dar se controlează cu tratament",en:"<b style='color:var(--text)'>Genital herpes</b> — causes recurring blisters/sores, not curable but manageable with treatment"},
+      {ro:"<b style='color:var(--text)'>HPV</b> — cea mai frecventă ITS, majoritatea infecțiilor dispar singure; unele tulpini cresc riscul de cancer — de aici vaccinul",en:"<b style='color:var(--text)'>HPV</b> — the most common STI; most infections clear on their own, but some strains raise cancer risk — hence the vaccine"},
+      {ro:"<b style='color:var(--text)'>Sifilis</b> — mai rar, dar grav netratat; ușor de tratat dacă e depistat devreme",en:"<b style='color:var(--text)'>Syphilis</b> — rarer but serious if untreated; easy to treat if caught early"},
+      {ro:"<b style='color:var(--text)'>HIV</b> — afectează sistemul imunitar; nu se vindecă, dar cu tratament modern o persoană poate trăi o viață lungă, sănătoasă, cu risc de transmitere aproape zero",en:"<b style='color:var(--text)'>HIV</b> — affects the immune system; not curable, but with modern treatment a person can live a long, healthy life with near-zero transmission risk"}
+    ],
+    contraList:[
+      {ro:"<b style='color:var(--text)'>Barieră</b> — prezervativ (singurul disponibil fără rețetă, protejează și de ITS)",en:"<b style='color:var(--text)'>Barrier</b> — condoms (the only one available without a prescription; also protects against STIs)"},
+      {ro:"<b style='color:var(--text)'>Hormonale</b> — pastile, plasturi, inel — necesită prescripție medicală",en:"<b style='color:var(--text)'>Hormonal</b> — pills, patches, rings — require a prescription"},
+      {ro:"<b style='color:var(--text)'>Dispozitive pe termen lung</b> — steriletul — instalat de un medic",en:"<b style='color:var(--text)'>Long-term devices</b> — IUDs — fitted by a doctor"},
+      {ro:"<b style='color:var(--text)'>Metode de urgență</b> — pentru situații neplanificate, nu ca metodă regulată",en:"<b style='color:var(--text)'>Emergency methods</b> — for unplanned situations, not for regular use"}
+    ],
+    condomList:[
+      {ro:"Verifică data de expirare și ca ambalajul să nu fie deteriorat",en:"Check the expiration date and that the wrapper isn't damaged"},
+      {ro:"Se pune înainte de orice contact genital, nu doar înainte de ejaculare",en:"Put it on before any genital contact, not just before ejaculation"},
+      {ro:"Se ciupește vârful, ca să nu rămână aer în interior",en:"Pinch the tip so no air is trapped inside"},
+      {ro:"Doar lubrifiant pe bază de apă sau silicon — uleiurile (vaselină, loțiuni) distrug latexul",en:"Only water- or silicone-based lubricant — oils (vaseline, lotion) break down latex"},
+      {ro:"Se ține de bază la retragere, cât timp penisul e încă erect, ca să nu alunece",en:"Hold the base while withdrawing, while still erect, so it doesn't slip off"},
+      {ro:"Un prezervativ = o singură folosire, pentru un singur tip de contact",en:"One condom = one use, for one type of contact"}
+    ],
+    readyList:[
+      {ro:"Chiar vreau asta, sau simt presiune (de la partener, prieteni, sau ce cred că „ar trebui”)?",en:"Do I actually want this, or do I feel pressure (from a partner, friends, or what I think I \"should\" do)?"},
+      {ro:"Pot spune „nu” sau „stop” în orice moment, fără teamă?",en:"Can I say \"no\" or \"stop\" at any point, without fear?"},
+      {ro:"Am vorbit deschis despre protecție, cu cealaltă persoană?",en:"Have we talked openly about protection?"},
+      {ro:"Aș regreta asta mâine, sau peste un an?",en:"Would I regret this tomorrow, or a year from now?"}
+    ],
+    hygieneList:[
+      {ro:"Spălare zilnică cu apă (și săpun neutru doar extern) a zonei genitale",en:"Daily washing of the genital area with water (mild soap only externally)"},
+      {ro:"Schimbarea lenjeriei intime zilnic",en:"Changing underwear daily"},
+      {ro:"Schimbarea absorbantelor/tampoanelor la 4-8 ore",en:"Changing pads/tampons every 4-8 hours"},
+      {ro:"Evitarea produselor parfumate în zona intimă — pot irita",en:"Avoiding scented products in the intimate area — they can cause irritation"}
+    ],
+    qaFilters:[
+      {key:"all",ro:"Toate",en:"All"},
+      {key:"body",ro:"Corp",en:"Body"},
+      {key:"feel",ro:"Emoții",en:"Feelings"},
+      {key:"safety",ro:"Siguranță",en:"Safety"}
+    ],
+    qa:[
+      {cat:"body",label:"myth",
+        q:{ro:"Dacă am prima menstruație la 10 ani sau la 15 ani, e ceva în neregulă?",en:"If I get my first period at 10 or at 15, is something wrong?"},
+        a:{ro:"Nu. Prima menstruație apare de obicei între 9 și 16 ani — ambele extreme sunt normale. Dacă până la 16 ani nu a apărut deloc, merită o discuție cu un medic, doar ca să verificați.",en:"No. A first period usually happens between ages 9 and 16 — both ends of that range are normal. If it hasn't started at all by 16, it's worth a check-up with a doctor, just to be sure."}},
+      {cat:"body",label:"fact",
+        q:{ro:"E normal să am erecții sau umezeală vaginală fără niciun motiv aparent?",en:"Is it normal to have erections or vaginal wetness with no clear reason?"},
+        a:{ro:"Da, complet normal. Corpul reacționează la hormoni, atingere accidentală, vise sau chiar la nimic anume, mai ales în pubertate. Nu înseamnă nimic despre ce „vrei” în acel moment.",en:"Yes, completely normal. The body reacts to hormones, accidental touch, dreams, or sometimes nothing at all, especially during puberty. It doesn't mean anything about what you \"want\" in that moment."}},
+      {cat:"body",label:"fact",
+        q:{ro:"E normal ca cele două părți ale corpului (sâni, testicule) să nu fie identice?",en:"Is it normal for paired body parts (breasts, testicles) to not match exactly?"},
+        a:{ro:"Da. Asimetria ușoară e extrem de comună și complet sănătoasă la majoritatea oamenilor.",en:"Yes. Slight asymmetry is extremely common and completely healthy for most people."}},
+      {cat:"feel",label:"myth",
+        q:{ro:"Dacă nu am simțit încă atracție față de nimeni, înseamnă că e ceva greșit cu mine?",en:"If I haven't felt attracted to anyone yet, does that mean something's wrong with me?"},
+        a:{ro:"Nu. Unii oameni simt atracție devreme, alții mai târziu, iar unii rareori sau deloc (persoane asexuale). Toate variantele sunt normale — nu există un „la timp” obligatoriu.",en:"No. Some people feel attraction early, some later, and some rarely or never (asexual people). All of these are normal — there's no required timeline."}},
+      {cat:"feel",label:"fact",
+        q:{ro:"Pornografia arată cum e sexul în realitate?",en:"Does porn show what sex is really like?"},
+        a:{ro:"Nu. E conținut regizat și editat pentru divertisment, nu educație. Corpuri, reacții și comportamente sunt adesea exagerate sau nerealiste, iar consimțământul rar e arătat explicit.",en:"No. It's staged, edited content made for entertainment, not education. Bodies, reactions and behavior are often exaggerated or unrealistic, and consent is rarely shown explicitly."}},
+      {cat:"feel",label:"fact",
+        q:{ro:"E normal să mă masturbez? Îmi face rău?",en:"Is masturbation normal? Is it harmful?"},
+        a:{ro:"E o parte normală și obișnuită a descoperirii propriului corp, la fel de sănătoasă ca orice altă formă de intimitate cu tine însuți, atâta timp cât rămâne un moment privat.",en:"It's a normal, common part of getting to know your own body, and is not physically harmful, as long as it stays a private moment."}},
+      {cat:"safety",label:"myth",
+        q:{ro:"Dacă folosim prezervativ, riscul de sarcină sau ITS e zero?",en:"If we use a condom, is the risk of pregnancy or STIs zero?"},
+        a:{ro:"Nu chiar zero, dar mult redus — prezervativul folosit corect are o eficiență de aproximativ 98%. Nicio metodă, în afară de abstinență, nu oferă protecție 100%.",en:"Not quite zero, but greatly reduced — condoms used correctly are about 98% effective. No method except abstinence offers 100% protection."}},
+      {cat:"safety",label:"fact",
+        q:{ro:"Dacă cineva îmi trimite o poză intimă neîntrebat, sunt eu vinovat(ă) dacă mă simt inconfortabil?",en:"If someone sends me an unwanted intimate photo, am I wrong to feel uncomfortable?"},
+        a:{ro:"Nu. Reacția ta e validă, iar trimiterea de conținut sexual neconsimțit poate fi și ilegală. Poți bloca, raporta persoana și vorbi cu un adult de încredere.",en:"No. Your reaction is valid, and sending unsolicited sexual content can also be illegal. You can block, report the person, and talk to a trusted adult."}},
+      {cat:"safety",label:"myth",
+        q:{ro:"Dacă un partener/o parteneră insistă „din dragoste”, ar trebui să cedez?",en:"If a partner pushes \"out of love\", should I give in?"},
+        a:{ro:"Nu. Dragostea reală respectă un „nu”. Insistența, vinovățirea sau amenințările nu sunt semne de afecțiune, ci de control — și merită discutate cu un adult de încredere.",en:"No. Real love respects a \"no\". Pushing, guilt-tripping, or threats are not signs of affection, they're signs of control — and are worth talking through with a trusted adult."}},
+      {cat:"body",label:"fact",
+        q:{ro:"Poți rămâne însărcinată chiar la primul contact sexual?",en:"Can you get pregnant the very first time?"},
+        a:{ro:"Da. Fertilitatea nu depinde de experiență — o singură dată e suficientă dacă nu se folosește protecție.",en:"Yes. Fertility doesn't depend on experience — a single time is enough if no protection is used."}},
+      {cat:"body",label:"myth",
+        q:{ro:"Se rupe ceva prima dată și sângerezi mereu?",en:"Does something \"break\" the first time, and do you always bleed?"},
+        a:{ro:"Nu neapărat. Himenul variază foarte mult de la o persoană la alta — unele sângerează puțin, altele deloc, iar la unele s-a întins deja înainte de orice contact sexual (sport, tampoane etc). Sângerarea sau lipsa ei nu dovedește nimic — „virginitatea” e mai degrabă un concept social decât unul medical.",en:"Not necessarily. The hymen varies a lot between people — some bleed a little, some not at all, and for some it's already stretched before any sexual contact (sports, tampons, etc). Bleeding or its absence proves nothing — \"virginity\" is more a social concept than a medical one."}},
+      {cat:"safety",label:"myth",
+        q:{ro:"Sexul oral e „mai sigur” și nu poți lua nimic prin el?",en:"Is oral sex \"safe\" and risk-free?"},
+        a:{ro:"Fals. Herpes, gonoree, chlamydia și HPV se pot transmite și prin sex oral. E adesea mai puțin riscant decât cel vaginal sau anal pentru anumite infecții, dar „mai puțin risc” nu înseamnă „zero risc”.",en:"False. Herpes, gonorrhea, chlamydia, and HPV can all be passed through oral sex. It's often lower-risk than vaginal or anal sex for certain infections, but \"lower risk\" doesn't mean \"zero risk\"."}}
+    ],
+    glossary:[
+      {ro:{t:"Pubertate",d:"Perioada în care corpul unui copil se transformă fizic într-un corp adult, prin acțiunea hormonilor."},en:{t:"Puberty",d:"The period when a child's body physically transforms into an adult body, driven by hormones."}},
+      {ro:{t:"Consimțământ",d:"Acordul liber, clar și continuu al unei persoane pentru un contact fizic sau o interacțiune."},en:{t:"Consent",d:"A person's free, clear, ongoing agreement to physical contact or an interaction."}},
+      {ro:{t:"ITS",d:"Infecție cu transmitere sexuală — infecție ce se poate transmite prin contact sexual."},en:{t:"STI",d:"Sexually transmitted infection — an infection that can be passed through sexual contact."}},
+      {ro:{t:"Contracepție",d:"Metode folosite pentru a preveni o sarcină neplanificată."},en:{t:"Contraception",d:"Methods used to prevent an unplanned pregnancy."}},
+      {ro:{t:"Orientare sexuală",d:"Către cine simte o persoană atracție romantică și/sau sexuală."},en:{t:"Sexual orientation",d:"Who a person feels romantic and/or sexual attraction toward."}},
+      {ro:{t:"Identitate de gen",d:"Simțul intern al unei persoane de a fi bărbat, femeie, ambele, niciuna sau altceva."},en:{t:"Gender identity",d:"A person's internal sense of being male, female, both, neither, or something else."}},
+      {ro:{t:"Consimțământ retras",d:"Dreptul de a schimba un „da” în „nu” în orice moment, chiar în timpul unei interacțiuni."},en:{t:"Withdrawn consent",d:"The right to change a \"yes\" into a \"no\" at any point, even mid-interaction."}},
+      {ro:{t:"Sexting",d:"Trimiterea de mesaje sau imagini cu conținut sexual, de obicei prin telefon."},en:{t:"Sexting",d:"Sending messages or images with sexual content, usually by phone."}},
+      {ro:{t:"Grooming",d:"Tipar de comportament prin care un adult câștigă treptat încrederea unui minor pentru a-l exploata."},en:{t:"Grooming",d:"A pattern of behavior where an adult gradually builds a minor's trust in order to exploit them."}},
+      {ro:{t:"Pubertate precoce/tardivă",d:"Când schimbările pubertale încep semnificativ mai devreme sau mai târziu decât media — merită evaluare medicală."},en:{t:"Early/delayed puberty",d:"When pubertal changes start significantly earlier or later than average — worth a medical check."}},
+      {ro:{t:"Vulvă",d:"Partea externă vizibilă a organelor genitale feminine (diferită de vagin, care e internă)."},en:{t:"Vulva",d:"The visible external part of female genitals (different from the vagina, which is internal)."}},
+      {ro:{t:"Testicule",d:"Organele care produc spermă și testosteron, situate în scrot."},en:{t:"Testicles",d:"The organs that produce sperm and testosterone, located in the scrotum."}},
+      {ro:{t:"Abstinență",d:"Alegerea de a nu avea contact sexual — singura metodă cu protecție 100% împotriva sarcinii și ITS."},en:{t:"Abstinence",d:"Choosing not to have sexual contact — the only method with 100% protection against pregnancy and STIs."}},
+      {ro:{t:"Erecție",d:"Întărirea și mărirea penisului din cauza afluxului de sânge — poate apărea și fără niciun motiv sexual, mai ales în pubertate."},en:{t:"Erection",d:"The hardening and enlarging of the penis due to blood flow — can happen with no sexual cause at all, especially during puberty."}},
+      {ro:{t:"Ovulație",d:"Eliberarea lunară a unui ovul dintr-un ovar — momentul din ciclu în care poate apărea o sarcină."},en:{t:"Ovulation",d:"The monthly release of an egg from an ovary — the point in the cycle when pregnancy can occur."}},
+      {ro:{t:"Vârsta consimțământului",d:"Vârsta minimă stabilită prin lege sub care o persoană nu poate consimți valabil la relații sexuale — 16 ani în România."},en:{t:"Age of consent",d:"The minimum age set by law under which a person cannot legally consent to sexual activity — 16 in Romania."}},
+      {ro:{t:"Vaccin HPV",d:"Vaccin care protejează împotriva tulpinilor de virus HPV asociate cu unele tipuri de cancer, recomandat de obicei la începutul adolescenței."},en:{t:"HPV vaccine",d:"A vaccine protecting against HPV strains linked to certain cancers, usually recommended in early adolescence."}},
+      {ro:{t:"Virginitate",d:"Un concept social, nu o stare medicală clar definită — nu poate fi „verificat” printr-un examen fizic simplu."},en:{t:"Virginity",d:"A social concept, not a clearly defined medical state — it can't be \"verified\" by a simple physical exam."}},
+      {ro:{t:"Lubrifiant",d:"Produs care reduce frecarea în timpul contactului sexual; cele pe bază de apă sau silicon sunt sigure cu prezervativele din latex, cele pe bază de ulei nu."},en:{t:"Lubricant",d:"A product that reduces friction during sexual contact; water- or silicone-based ones are safe with latex condoms, oil-based ones are not."}}
+    ],
+    resources:[
+      {num:"116111",ro:{t:"Telefonul Copilului",d:"Linie gratuită și confidențială pentru copii și adolescenți din România — abuz, siguranță online, sprijin emoțional."},en:{t:"Telefonul Copilului (Child Helpline)",d:"Free, confidential helpline for children and teens in Romania — abuse, online safety, emotional support."}},
+      {num:"112",ro:{t:"Urgențe naționale",d:"Poliție, ambulanță, pompieri — pentru pericol imediat."},en:{t:"National emergency number",d:"Police, ambulance, fire — for immediate danger."}},
+      {num:"→",ro:{t:"Un adult de încredere",d:"Un părinte, profesor, consilier școlar sau rudă apropiată — persoanele care te cunosc pot ajuta cel mai mult."},en:{t:"A trusted adult",d:"A parent, teacher, school counselor, or close relative — people who know you can help the most."}},
+      {num:"⚕",ro:{t:"Medic de familie / ginecolog",d:"Pentru orice întrebare medicală legată de corp, ciclu sau sănătate sexuală — confidențial."},en:{t:"Family doctor / gynecologist",d:"For any medical question about your body, cycle, or sexual health — confidential."}}
+    ]
+  };
+
+  /* ============ RENDER HELPERS ============ */
+  let lang = "ro";
+
+  function applyStaticText(){
+    document.documentElement.lang = lang;
+    document.querySelectorAll("[data-t]").forEach(el=>{
+      const key = el.getAttribute("data-t");
+      if(T[lang][key] !== undefined){ el.innerHTML = T[lang][key]; }
+    });
+    document.querySelectorAll("[data-t-ph]").forEach(el=>{
+      const key = el.getAttribute("data-t-ph");
+      if(T[lang][key] !== undefined){ el.setAttribute("placeholder", T[lang][key]); }
+    });
+  }
+
+  function renderBodyChecklist(){
+    const el = document.getElementById("body-checklist");
+    el.innerHTML = D.bodyChecklist.map(it=>`<div class="check-item"><div class="cb">✓</div><span>${it[lang]}</span></div>`).join("");
+  }
+  function renderPeriodTips(){
+    document.getElementById("body-period-tips").innerHTML = D.periodTips.map(it=>`<li>${it[lang]}</li>`).join("");
+  }
+  function renderPadsList(){
+    document.getElementById("body-pads-list").innerHTML = D.padsList.map(it=>`<li>${it[lang]}</li>`).join("");
+  }
+  function renderAnatomyList(){
+    document.getElementById("body-anatomy-list").innerHTML = D.anatomyList.map(it=>`<li>${it[lang]}</li>`).join("");
+  }
+  function renderIdentityList(){
+    document.getElementById("feel-identity-list").innerHTML = D.identityList.map(it=>`<li>${it[lang]}</li>`).join("");
+  }
+  function renderConsPrinciples(){
+    document.getElementById("cons-principles").innerHTML = D.consPrinciples.map(it=>`<li>${it[lang]}</li>`).join("");
+  }
+  function renderSayNo(){
+    document.getElementById("cons-sayno-list").innerHTML = D.sayNoList.map(it=>`<li>${it[lang]}</li>`).join("");
+  }
+  function renderTalkList(){
+    document.getElementById("cons-talk-list").innerHTML = D.talkList.map(it=>`<li>${it[lang]}</li>`).join("");
+  }
+  function renderGround(){
+    document.getElementById("feel-ground-list").innerHTML = D.groundList.map(it=>`<li>${it[lang]}</li>`).join("");
+  }
+  function renderCompare(){
+    document.getElementById("cons-good").innerHTML = D.consGood.map(it=>`<li>${it[lang]}</li>`).join("");
+    document.getElementById("cons-bad").innerHTML = D.consBad.map(it=>`<li>${it[lang]}</li>`).join("");
+  }
+  function renderStiList(){
+    document.getElementById("hlth-sti-list").innerHTML = D.stiList.map(it=>`<li>${it[lang]}</li>`).join("");
+  }
+  function renderContraList(){
+    document.getElementById("hlth-contra-list").innerHTML = D.contraList.map(it=>`<li>${it[lang]}</li>`).join("");
+  }
+  function renderCondomList(){
+    document.getElementById("hlth-condom-list").innerHTML = D.condomList.map(it=>`<li>${it[lang]}</li>`).join("");
+  }
+  function renderReadyList(){
+    document.getElementById("hlth-ready-list").innerHTML = D.readyList.map(it=>`<li>${it[lang]}</li>`).join("");
+  }
+  function renderHygiene(){
+    document.getElementById("hlth-hygiene-list").innerHTML = D.hygieneList.map(it=>`<li>${it[lang]}</li>`).join("");
+  }
+
+  let activeFilter = "all";
+  const openNotes = new Set();
+  function renderQaFilters(){
+    const el = document.getElementById("qa-filters");
+    el.innerHTML = D.qaFilters.map(f=>`<button class="filter-chip ${f.key===activeFilter?'active':''}" data-filter="${f.key}">${f[lang]}</button>`).join("");
+    el.querySelectorAll(".filter-chip").forEach(btn=>{
+      btn.addEventListener("click", ()=>{ activeFilter = btn.getAttribute("data-filter"); renderQaFilters(); renderQaList(); });
+    });
+  }
+  function renderQaList(){
+    const el = document.getElementById("qa-list");
+    const items = D.qa.filter(q=> activeFilter==="all" || q.cat===activeFilter);
+    el.innerHTML = items.map((q)=>{
+      const uid = q.cat+"-"+D.qa.indexOf(q);
+      const isOpen = openNotes.has(uid);
+      const labelText = q.label==="myth" ? (lang==="ro"?"MIT":"MYTH") : (lang==="ro"?"FAPT":"FACT");
+      return `<div class="note-card ${isOpen?'open':''}" data-uid="${uid}" role="button" tabindex="0" aria-expanded="${isOpen}">
+        <div class="note-inner">
+          <div class="note-face note-front"><div class="qtxt">${q.q[lang]}</div></div>
+          <div class="note-face note-back">
+            <span class="lab ${q.label}">${labelText}</span>
+            <p>${q.a[lang]}</p>
+          </div>
+        </div>
+      </div>`;
+    }).join("");
+    el.querySelectorAll(".note-card").forEach(card=>{
+      const toggle = ()=>{
+        const uid = card.getAttribute("data-uid");
+        card.classList.toggle("open");
+        const isNowOpen = card.classList.contains("open");
+        card.setAttribute("aria-expanded", isNowOpen);
+        if(isNowOpen) openNotes.add(uid); else openNotes.delete(uid);
+      };
+      card.addEventListener("click", toggle);
+      card.addEventListener("keydown", (e)=>{
+        if(e.key==="Enter" || e.key===" "){ e.preventDefault(); toggle(); }
+      });
+    });
+  }
+
+  let glosQuery = "";
+  function renderGlossary(){
+    const el = document.getElementById("glos-list");
+    const q = glosQuery.trim().toLowerCase();
+    const items = D.glossary.filter(g=>{
+      if(!q) return true;
+      const entry = g[lang];
+      return entry.t.toLowerCase().includes(q) || entry.d.toLowerCase().includes(q);
+    });
+    if(items.length===0){
+      el.innerHTML = `<div class="glos-item"><div class="def">${lang==="ro"?"Niciun termen găsit.":"No term found."}</div></div>`;
+      return;
+    }
+    el.innerHTML = items.map(g=>`<div class="glos-item"><div class="term">${g[lang].t}</div><div class="def">${g[lang].d}</div></div>`).join("");
+  }
+
+  function renderResources(){
+    const el = document.getElementById("res-list");
+    el.innerHTML = D.resources.map(r=>`<div class="res-card"><div class="res-num">${r.num}</div><div class="res-txt"><b>${r[lang].t}</b><span>${r[lang].d}</span></div></div>`).join("");
+  }
+
+  function renderAllDynamic(){
+    renderBodyChecklist(); renderPeriodTips(); renderPadsList(); renderAnatomyList(); renderIdentityList(); renderGround();
+    renderConsPrinciples(); renderSayNo(); renderTalkList(); renderCompare(); renderContraList(); renderCondomList(); renderReadyList(); renderStiList(); renderHygiene();
+    renderQaFilters(); renderQaList(); renderGlossary(); renderResources();
+  }
+
+  /* ============ MICRO-INTERACTIONS ============ */
+  function updateLangPill(){
+    const pill = document.getElementById("langPill");
+    const activeBtn = document.querySelector(".lang-toggle button.active");
+    if(!pill || !activeBtn) return;
+    pill.style.transform = activeBtn.id === "btnEn" ? "translateX(100%)" : "translateX(0)";
+  }
+
+  function updateTabIndicator(){
+    const indicator = document.getElementById("tabIndicator");
+    const activeBtn = document.querySelector(".tab-btn.active");
+    const inner = document.getElementById("tabbarInner");
+    if(!indicator || !activeBtn || !inner) return;
+    const innerBox = inner.getBoundingClientRect();
+    const btnBox = activeBtn.getBoundingClientRect();
+    indicator.style.width = btnBox.width + "px";
+    indicator.style.transform = "translateX(" + (btnBox.left - innerBox.left - 6) + "px)";
+  }
+
+  function staggerCards(viewEl){
+    const items = viewEl.querySelectorAll(".card, .home-link");
+    items.forEach((el, i)=>{
+      el.classList.remove("enter");
+      void el.offsetWidth; // force reflow so the animation restarts
+      el.style.animationDelay = (i * 0.045) + "s";
+      el.classList.add("enter");
+    });
+  }
+
+  let progressRaf = null;
+  function updateProgress(){
+    if(progressRaf) return;
+    progressRaf = requestAnimationFrame(()=>{
+      progressRaf = null;
+      const fill = document.getElementById("progressFill");
+      if(!fill) return;
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = scrollable > 0 ? Math.min(100, Math.max(0, (window.scrollY / scrollable) * 100)) : 0;
+      fill.style.width = pct + "%";
+    });
+  }
+  window.addEventListener("scroll", updateProgress, { passive:true });
+  window.addEventListener("resize", updateTabIndicator);
+
+  /* ============ LANGUAGE SWITCH ============ */
+  function setLang(l){
+    lang = l;
+    document.getElementById("btnRo").classList.toggle("active", l==="ro");
+    document.getElementById("btnEn").classList.toggle("active", l==="en");
+    applyStaticText();
+    renderAllDynamic();
+    updateLangPill();
+  }
+  document.getElementById("btnRo").addEventListener("click", ()=>setLang("ro"));
+  document.getElementById("btnEn").addEventListener("click", ()=>setLang("en"));
+
+  /* ============ TAB NAVIGATION ============ */
+  function goto(view){
+    document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+    const activeView = document.getElementById("view-"+view);
+    activeView.classList.add("active");
+    document.querySelectorAll(".tab-btn").forEach(b=>b.classList.toggle("active", b.getAttribute("data-goto")===view));
+    document.getElementById("content").scrollTo(0,0);
+    window.scrollTo(0,0);
+    updateTabIndicator();
+    updateProgress();
+    staggerCards(activeView);
+  }
+  document.querySelectorAll("[data-goto]").forEach(el=>{
+    el.addEventListener("click", ()=> goto(el.getAttribute("data-goto")));
+    el.addEventListener("keydown", (e)=>{
+      if(e.key==="Enter" || e.key===" "){ e.preventDefault(); goto(el.getAttribute("data-goto")); }
+    });
+  });
+
+  document.getElementById("glosSearch").addEventListener("input", (e)=>{
+    glosQuery = e.target.value; renderGlossary();
+  });
+
+  /* ============ INIT ============ */
+  applyStaticText();
+  renderAllDynamic();
+  updateLangPill();
+  requestAnimationFrame(updateTabIndicator);
+  staggerCards(document.getElementById("view-home"));
+})();
+</script>
+</body>
+</html>
