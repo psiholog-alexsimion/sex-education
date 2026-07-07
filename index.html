@@ -364,6 +364,67 @@
   .foot-credit a{color:var(--text-faint);text-decoration:underline;}
 
   :focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+  /* ==================================================================
+     RESPONSIVE: TABLET & DESKTOP
+     Mobile-first base above stays untouched; these widen the reading
+     column and scale up type/spacing so the app doesn't look like a
+     small phone screen floating in empty space on larger displays.
+  ================================================================== */
+  @media (min-width: 700px){
+    .app-shell{max-width:700px;}
+    .tabbar-inner{max-width:640px;}
+    .content{padding-left:36px;padding-right:36px;}
+    .topbar{padding-left:36px;padding-right:36px;}
+
+    .hero h1{font-size:38px;}
+    .hero p.lead{font-size:16.5px;}
+    .section-header h1{font-size:28px;}
+    .card h2{font-size:19px;}
+    .card p{font-size:14.6px;}
+    .promise b{font-size:14px;}
+    .promise .ic{font-size:24px;}
+    .check-item span{font-size:14px;}
+    .cta-help{font-size:14px;padding:14px 22px;}
+    .constellation{max-width:300px;}
+    .glos-item .term{font-size:14.6px;}
+    .glos-item .def{font-size:13.6px;}
+    .res-txt b{font-size:14.8px;}
+    .res-txt span{font-size:12.6px;}
+    .note-front .qtxt{font-size:14.3px;}
+    .note-back p{font-size:13.6px;}
+  }
+
+  @media (min-width: 1040px){
+    .app-shell{max-width:860px;}
+    .tabbar-inner{max-width:780px;}
+    .content{padding-left:40px;padding-right:40px;}
+    .topbar{padding-left:40px;padding-right:40px;}
+
+    .hero h1{font-size:46px;}
+    .hero p.lead{font-size:17.5px;}
+    .section-header h1{font-size:32px;}
+    .section-header p{font-size:15px;}
+    .card{padding:22px 24px 23px;}
+    .card h2{font-size:20.5px;}
+    .card p{font-size:15px;}
+    .promise-grid{gap:14px;}
+    .promise{padding:18px 17px;}
+    .promise b{font-size:15px;}
+    .promise .ic{font-size:27px;}
+    .home-link{padding:17px 18px;}
+    .home-link .hl-txt b{font-size:15.5px;}
+    .home-link .hl-txt span{font-size:13px;}
+    .cta-help{font-size:15px;padding:15px 24px;}
+    .constellation{max-width:340px;}
+
+    /* Wider empty margins either side get a soft glow instead of flat void */
+    body{
+      background:
+        radial-gradient(ellipse 70% 60% at 15% 0%, #17161d 0%, transparent 55%),
+        radial-gradient(ellipse 70% 60% at 85% 100%, #14181a 0%, transparent 55%),
+        var(--bg-deep);
+    }
+  }
 </style>
 </head>
 <body>
@@ -468,6 +529,11 @@
         <span class="ic">💬</span>
         <span data-t="home.closeNote">Dacă ceva din ce citești te neliniștește sau vrei să vorbești cu cineva, capitolul <b>Întrebări & ajutor</b> are numere de telefon gratuite și confidențiale.</span>
       </div>
+
+      <div class="callout" style="margin-top:10px;background:rgba(255,210,63,0.08);border:1px solid rgba(255,210,63,0.25);">
+        <span class="ic">⚖️</span>
+        <span data-t="home.rights">Informarea despre corpul tău și accesul la sănătate nu sunt doar lucruri utile de știut — sunt drepturi ale tale, recunoscute internațional, indiferent de vârstă.</span>
+      </div>
     </section>
 
     <!-- ============ BODY ============ -->
@@ -539,6 +605,8 @@
         <h2><span class="tag-dot"></span><span data-t="feel.c3t">Orientare & identitate — câteva repere</span></h2>
         <p data-t="feel.c3intro" style="margin-bottom:10px;">Trei lucruri diferite, des confundate: <b style="color:var(--text)">sexul biologic</b> (corpul cu care te-ai născut), <b style="color:var(--text)">identitatea de gen</b> (cine simți că ești — băiat, fată, ambele, niciuna) și <b style="color:var(--text)">orientarea sexuală</b> (față de cine simți atracție). Nu se determină una pe cealaltă.</p>
         <ul id="feel-identity-list"></ul>
+        <p class="card-sub" data-t="feel.genderSub" style="margin-top:12px;">Identitatea de gen, separat de orientare:</p>
+        <ul id="feel-gender-list"></ul>
         <p data-t="feel.c3p" style="margin-top:10px;">Nu trebuie să ai o etichetă acum, și nici să o păstrezi pentru totdeauna dacă alegi una. E ok să explorezi cine ești, în siguranță și în ritmul tău.</p>
         <p data-t="feel.c3p2" style="margin-top:10px;">Dacă întâmpini tachinări, respingere sau tratament nedrept legat de cine ești sau pe cine iubești, asta nu spune nimic despre valoarea ta. Un consilier școlar, Telefonul Copilului sau un adult de încredere pot fi un sprijin real.</p>
       </div>
@@ -547,6 +615,22 @@
         <h2><span class="tag-dot"></span><span data-t="feel.c4t">Imaginea corporală</span></h2>
         <p data-t="feel.c4p">În perioada asta corpul se schimbă vizibil, iar comparațiile — mai ales cele de pe rețele sociale — pot afecta cum te vezi. Corpurile din poze sunt adesea filtrate sau editate. Corpul tău real, în schimbare, nu e o greșeală care trebuie corectată.</p>
         <p data-t="feel.c4p2" style="margin:0;">Corpul tău nu e doar ceva de privit — e ceea ce te duce pe munte, te lasă să dansezi prost și cu poftă, te îmbrățișează pe cineva drag. Merită apreciere pentru ce face, nu doar verdict pentru cum arată.</p>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="feel.stereoT">Stereotipuri de gen — și dublul standard</span></h2>
+        <p data-t="feel.stereoP" style="margin:0;">„Băieții trebuie să vrea mereu sex”, „fetele care au mai mulți parteneri sunt...”, „bărbații nu plâng” — sunt stereotipuri, nu adevăruri despre cum „trebuie” să fii. Dublul standard — aceleași alegeri judecate diferit după genul persoanei — nu e corect și nu ar trebui să-ți dicteze deciziile.</p>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="feel.mediaT">Ce vezi online nu e manualul de instrucțiuni</span></h2>
+        <p data-t="feel.mediaP" style="margin:0;">Reclamele, rețelele sociale și pornografia sunt făcute să capteze atenția sau să vândă, nu să educe. Corpuri editate, „reguli” nescrise despre cum ar trebui să arate o relație sau un corp, comportamente exagerate — toate pot crea așteptări nerealiste despre tine, despre ceilalți și despre cum „ar trebui” să fie sexul sau o relație. Ce vezi online e conținut, nu un standard de urmat.</p>
+      </div>
+
+      <div class="card gold">
+        <h2><span class="tag-dot"></span><span data-t="feel.outT">Dacă vrei să spui cuiva cine ești</span></h2>
+        <p data-t="feel.outP1">Nu ai nicio obligație să „ieși din umbră” către nimeni, niciodată — nici față de familie, nici față de prieteni. E alegerea ta, integral, și poate rămâne doar a ta atât timp cât vrei.</p>
+        <p data-t="feel.outP2" style="margin:0;">Dacă alegi să spui cuiva, ajută să începi cu o persoană despre care ai motive să crezi că va reacționa bine — un prieten apropiat, un consilier școlar, sau chiar doar tu, într-un jurnal. Nu ești obligat(ă) să spui tuturor deodată, iar dacă o reacție e dureroasă, asta spune ceva despre persoana respectivă, nu despre tine.</p>
       </div>
 
       <div class="card teal">
@@ -589,10 +673,21 @@
         <p data-t="cons.c2bp" style="margin:0;">Din 2024, legea românească stabilește că o persoană sub 16 ani nu poate da un consimțământ valabil pentru relații sexuale cu cineva semnificativ mai în vârstă. Asta te protejează pe tine — indiferent ce spune sau promite adultul respectiv, legea e de partea ta.</p>
       </div>
 
+      <div class="card" style="border-color:rgba(255,92,122,0.3);">
+        <h2><span class="tag-dot"></span><span data-t="cons.alcT">Alcoolul, drogurile și consimțământul</span></h2>
+        <p data-t="cons.alcP" style="margin:0;">O persoană sub influența alcoolului sau a altor substanțe, ori care e adormită sau inconștientă, nu poate da un consimțământ valabil — indiferent ce a spus înainte de a bea sau ce „părea” că vrea. A profita de starea asta e agresiune sexuală, nu „noroc”. Iar dacă tu ai băut, tot ai dreptul să te răzgândești sau să te retragi din orice interacțiune, oricât de avansată.</p>
+      </div>
+
       <div class="card teal">
         <h2><span class="tag-dot"></span><span data-t="cons.sayNoT">Cum spui „nu”, concret</span></h2>
         <p class="card-sub" data-t="cons.sayNoSub">Nu ai nevoie de un motiv elaborat. Câteva variante care funcționează:</p>
         <ul id="cons-sayno-list"></ul>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="cons.checkT">Consimțământul nu e o singură întrebare</span></h2>
+        <p class="card-sub" data-t="cons.checkSub">Se verifică pe parcurs, nu doar la început. Fraze utile:</p>
+        <ul id="cons-check-list"></ul>
       </div>
 
       <div class="card">
@@ -680,11 +775,23 @@
         <h2><span class="tag-dot"></span><span data-t="hlth.stiListT">Cele mai frecvente ITS, pe scurt</span></h2>
         <ul id="hlth-sti-list"></ul>
         <p data-t="hlth.stiListP" style="margin-top:10px;">Riscul există la orice tip de cuplu, indiferent de genul partenerilor — protecția și testarea contează la fel de mult pentru toată lumea.</p>
+        <p data-t="hlth.stiSymp" style="margin-top:10px;">Semne care merită un consult (nu diagnostic, doar semnal): usturime la urinare, secreții neobișnuite, mâncărimi, vezicule sau răni în zona genitală. Multe ITS nu dau, însă, niciun semn — testarea contează mai mult decât „cum te simți”.</p>
       </div>
 
       <div class="callout info">
         <span class="ic">🔬</span>
         <span data-t="hlth.testing">Testarea pentru ITS e, de obicei, gratuită și confidențială la cabinetele de boli infecțioase sau planning familial — inclusiv pentru minori, în multe cazuri fără să fie nevoie de acordul unui părinte pentru testare (deși tratamentul poate necesita implicarea unui adult).</span>
+      </div>
+
+      <div class="callout info">
+        <span class="ic">🏳️‍🌈</span>
+        <span data-t="hlth.lgbtq">Pentru întrebări specifice comunității LGBTQIA+ — sănătate, discriminare, medici prietenoși — Asociația ACCEPT oferă informații și sprijin confidențial (acceptromania.ro).</span>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag-dot"></span><span data-t="hlth.examT">La ce te aștepți la un prim control ginecologic/de sănătate sexuală</span></h2>
+        <p data-t="hlth.examP1">Un prim control nu înseamnă neapărat un examen intern — de multe ori e doar o discuție despre ciclu, contracepție sau întrebări, fără nicio atingere. Dacă e nevoie de un examen fizic, medicul explică fiecare pas înainte să îl facă, iar tu poți cere oricând să se oprească.</p>
+        <p data-t="hlth.examP2" style="margin:0;">Poți cere să fie de față un părinte sau altă persoană de încredere, sau poți cere să fii singur(ă) cu medicul — ambele sunt opțiuni valide. Discuția rămâne confidențială.</p>
       </div>
 
       <div class="card">
@@ -806,6 +913,7 @@
       "home.l4":"ITS, contracepție, igienă",
       "home.l5":"Mituri, glosar, linii de suport",
       "home.closeNote":"Dacă ceva din ce citești te neliniștește sau vrei să vorbești cu cineva, capitolul <b>Întrebări & ajutor</b> are numere de telefon gratuite și confidențiale.",
+      "home.rights":"Informarea despre corpul tău și accesul la sănătate nu sunt doar lucruri utile de știut — sunt drepturi ale tale, recunoscute internațional, indiferent de vârstă.",
       "body.eyebrow":"● CAPITOLUL 1",
       "body.intro":"Pubertatea e procesul prin care corpul unui copil devine corpul unui adult tânăr. Începe și se termină diferit pentru fiecare — de obicei undeva între 8 și 16 ani. Nu e o cursă.",
       "body.c1t":"Ce declanșează totul: hormonii",
@@ -831,11 +939,19 @@
       "feel.c2p2":"Atracția poate fi față de persoane de același gen, de gen diferit, de ambele, sau poți încă să nu știi — și e în regulă să nu ai un răspuns clar acum. Identitatea se poate clarifica în timp, în ritmul tău.",
       "feel.c3t":"Orientare & identitate — câteva repere",
       "feel.c3intro":"Trei lucruri diferite, des confundate: <b style=\"color:var(--text)\">sexul biologic</b> (corpul cu care te-ai născut), <b style=\"color:var(--text)\">identitatea de gen</b> (cine simți că ești — băiat, fată, ambele, niciuna) și <b style=\"color:var(--text)\">orientarea sexuală</b> (față de cine simți atracție). Nu se determină una pe cealaltă.",
+      "feel.genderSub":"Identitatea de gen, separat de orientare:",
       "feel.c3p":"Nu trebuie să ai o etichetă acum, și nici să o păstrezi pentru totdeauna dacă alegi una. E ok să explorezi cine ești, în siguranță și în ritmul tău.",
       "feel.c3p2":"Dacă întâmpini tachinări, respingere sau tratament nedrept legat de cine ești sau pe cine iubești, asta nu spune nimic despre valoarea ta. Un consilier școlar, Telefonul Copilului sau un adult de încredere pot fi un sprijin real.",
       "feel.c4t":"Imaginea corporală",
       "feel.c4p":"În perioada asta corpul se schimbă vizibil, iar comparațiile — mai ales cele de pe rețele sociale — pot afecta cum te vezi. Corpurile din poze sunt adesea filtrate sau editate. Corpul tău real, în schimbare, nu e o greșeală care trebuie corectată.",
       "feel.c4p2":"Corpul tău nu e doar ceva de privit — e ceea ce te duce pe munte, te lasă să dansezi prost și cu poftă, te îmbrățișează pe cineva drag. Merită apreciere pentru ce face, nu doar verdict pentru cum arată.",
+      "feel.stereoT":"Stereotipuri de gen — și dublul standard",
+      "feel.stereoP":"„Băieții trebuie să vrea mereu sex”, „fetele care au mai mulți parteneri sunt...”, „bărbații nu plâng” — sunt stereotipuri, nu adevăruri despre cum „trebuie” să fii. Dublul standard — aceleași alegeri judecate diferit după genul persoanei — nu e corect și nu ar trebui să-ți dicteze deciziile.",
+      "feel.mediaT":"Ce vezi online nu e manualul de instrucțiuni",
+      "feel.mediaP":"Reclamele, rețelele sociale și pornografia sunt făcute să capteze atenția sau să vândă, nu să educe. Corpuri editate, „reguli” nescrise despre cum ar trebui să arate o relație sau un corp, comportamente exagerate — toate pot crea așteptări nerealiste despre tine, despre ceilalți și despre cum „ar trebui” să fie sexul sau o relație. Ce vezi online e conținut, nu un standard de urmat.",
+      "feel.outT":"Dacă vrei să spui cuiva cine ești",
+      "feel.outP1":"Nu ai nicio obligație să „ieși din umbră” către nimeni, niciodată — nici față de familie, nici față de prieteni. E alegerea ta, integral, și poate rămâne doar a ta atât timp cât vrei.",
+      "feel.outP2":"Dacă alegi să spui cuiva, ajută să începi cu o persoană despre care ai motive să crezi că va reacționa bine — un prieten apropiat, un consilier școlar, sau chiar doar tu, într-un jurnal. Nu ești obligat(ă) să spui tuturor deodată, iar dacă o reacție e dureroasă, asta spune ceva despre persoana respectivă, nu despre tine.",
       "feel.groundT":"Când emoția e prea mare, chiar acum",
       "feel.groundSub":"O tehnică simplă de ancorare, pentru momentul în care simți că te copleșește:",
       "feel.close":"Dacă emoțiile devin copleșitoare pentru perioade lungi — tristețe constantă, anxietate care nu trece, gânduri că nu ești în regulă — merită să vorbești cu un adult de încredere sau un consilier școlar. Nu trebuie să treci prin asta singur.",
@@ -848,8 +964,12 @@
       "cons.c2p":"Un consimțământ real e dat liber (fără presiune, frică sau manipulare), clar (comunicat, nu presupus), specific (pentru un lucru anume, nu „tot ce urmează”) și poate fi retras oricând — chiar și după ce ai spus „da” inițial.",
       "cons.c2bt":"Vârsta consimțământului, în România",
       "cons.c2bp":"Din 2024, legea românească stabilește că o persoană sub 16 ani nu poate da un consimțământ valabil pentru relații sexuale cu cineva semnificativ mai în vârstă. Asta te protejează pe tine — indiferent ce spune sau promite adultul respectiv, legea e de partea ta.",
+      "cons.alcT":"Alcoolul, drogurile și consimțământul",
+      "cons.alcP":"O persoană sub influența alcoolului sau a altor substanțe, ori care e adormită sau inconștientă, nu poate da un consimțământ valabil — indiferent ce a spus înainte de a bea sau ce „părea” că vrea. A profita de starea asta e agresiune sexuală, nu „noroc”. Iar dacă tu ai băut, tot ai dreptul să te răzgândești sau să te retragi din orice interacțiune, oricât de avansată.",
       "cons.sayNoT":"Cum spui „nu”, concret",
       "cons.sayNoSub":"Nu ai nevoie de un motiv elaborat. Câteva variante care funcționează:",
+      "cons.checkT":"Consimțământul nu e o singură întrebare",
+      "cons.checkSub":"Se verifică pe parcurs, nu doar la început. Fraze utile:",
       "cons.talkT":"Cum vorbești despre protecție, cu un partener",
       "cons.talkSub":"O discuție incomodă e mai ușoară cu fraze pregătite din timp:",
       "cons.assaultT":"Agresiunea sexuală — ce înseamnă și ce poți face",
@@ -880,7 +1000,12 @@
       "hlth.pregP1":"Există mai multe variante posibile (continuarea sarcinii, adopția, sau întreruperea ei, unde legea permite) — care e potrivită depinde de context, valori personale sau de familie, și e o decizie care se ia cu ajutor medical și adesea cu susținerea unui adult de încredere. Cel mai important e să vorbești cu cineva cât mai repede — un părinte, un medic sau un cabinet de planning familial pot explica opțiunile concrete, confidențial.",
       "hlth.stiListT":"Cele mai frecvente ITS, pe scurt",
       "hlth.stiListP":"Riscul există la orice tip de cuplu, indiferent de genul partenerilor — protecția și testarea contează la fel de mult pentru toată lumea.",
+      "hlth.stiSymp":"Semne care merită un consult (nu diagnostic, doar semnal): usturime la urinare, secreții neobișnuite, mâncărimi, vezicule sau răni în zona genitală. Multe ITS nu dau, însă, niciun semn — testarea contează mai mult decât „cum te simți”.",
       "hlth.testing":"Testarea pentru ITS e, de obicei, gratuită și confidențială la cabinetele de boli infecțioase sau planning familial — inclusiv pentru minori, în multe cazuri fără să fie nevoie de acordul unui părinte pentru testare (deși tratamentul poate necesita implicarea unui adult).",
+      "hlth.lgbtq":"Pentru întrebări specifice comunității LGBTQIA+ — sănătate, discriminare, medici prietenoși — Asociația ACCEPT oferă informații și sprijin confidențial (acceptromania.ro).",
+      "hlth.examT":"La ce te aștepți la un prim control ginecologic/de sănătate sexuală",
+      "hlth.examP1":"Un prim control nu înseamnă neapărat un examen intern — de multe ori e doar o discuție despre ciclu, contracepție sau întrebări, fără nicio atingere. Dacă e nevoie de un examen fizic, medicul explică fiecare pas înainte să îl facă, iar tu poți cere oricând să se oprească.",
+      "hlth.examP2":"Poți cere să fie de față un părinte sau altă persoană de încredere, sau poți cere să fii singur(ă) cu medicul — ambele sunt opțiuni valide. Discuția rămâne confidențială.",
       "hlth.c1t":"Infecții cu transmitere sexuală (ITS)",
       "hlth.c1p1":"ITS sunt infecții care se pot transmite prin contact sexual. Multe (ex: chlamydia, HPV) nu dau simptome vizibile la început, motiv pentru care testarea contează, nu doar „a te simți bine”.",
       "hlth.c1p2":"Vestea bună: majoritatea ITS sunt tratabile, iar riscul poate fi redus semnificativ prin folosirea corectă a prezervativului și prin testare regulată odată ce cineva devine activ sexual.",
@@ -932,6 +1057,7 @@
       "home.l4":"STIs, contraception, hygiene",
       "home.l5":"Myths, glossary, support lines",
       "home.closeNote":"If anything here worries you or you want to talk to someone, the <b>Questions & Help</b> chapter has free, confidential phone numbers.",
+      "home.rights":"Information about your body and access to healthcare aren't just useful things to know — they're your rights, recognized internationally, regardless of age.",
       "body.eyebrow":"● CHAPTER 1",
       "body.intro":"Puberty is the process where a child's body becomes a young adult's body. It starts and ends differently for everyone — usually somewhere between ages 8 and 16. It's not a race.",
       "body.c1t":"What starts it all: hormones",
@@ -957,11 +1083,19 @@
       "feel.c2p2":"Attraction can be toward people of the same gender, a different gender, both, or you might still not know — and it's fine not to have a clear answer right now. Identity can become clearer over time, at your own pace.",
       "feel.c3t":"Orientation & identity — a few pointers",
       "feel.c3intro":"Three different things, often confused: <b style=\"color:var(--text)\">biological sex</b> (the body you were born with), <b style=\"color:var(--text)\">gender identity</b> (who you feel you are — a boy, a girl, both, neither), and <b style=\"color:var(--text)\">sexual orientation</b> (who you're attracted to). None of these determines the others.",
+      "feel.genderSub":"Gender identity, separate from orientation:",
       "feel.c3p":"You don't need a label right now, and you don't have to keep one forever if you pick one. It's okay to explore who you are, safely and at your own pace.",
       "feel.c3p2":"If you face teasing, rejection, or unfair treatment because of who you are or who you love, that says nothing about your worth. A school counselor, the Child Helpline, or a trusted adult can be real support.",
       "feel.c4t":"Body image",
       "feel.c4p":"During this time your body changes visibly, and comparisons — especially on social media — can affect how you see yourself. Bodies in photos are often filtered or edited. Your real, changing body isn't a mistake that needs fixing.",
       "feel.c4p2":"Your body isn't just something to look at — it's what takes you up a mountain, lets you dance badly and joyfully, hugs someone you love. It deserves appreciation for what it does, not just a verdict on how it looks.",
+      "feel.stereoT":"Gender stereotypes — and the double standard",
+      "feel.stereoP":"\"Boys always want sex\", \"girls who've had multiple partners are...\", \"men don't cry\" — these are stereotypes, not truths about how you \"should\" be. The double standard — the same choices judged differently depending on someone's gender — isn't fair, and shouldn't dictate your decisions.",
+      "feel.mediaT":"What you see online isn't the instruction manual",
+      "feel.mediaP":"Ads, social media, and pornography are made to capture attention or sell something, not to educate. Edited bodies, unwritten \"rules\" about how a relationship or a body should look, exaggerated behavior — all of it can create unrealistic expectations about yourself, about others, and about how sex or relationships \"should\" be. What you see online is content, not a standard to live up to.",
+      "feel.outT":"If you want to tell someone who you are",
+      "feel.outP1":"You have no obligation to \"come out\" to anyone, ever — not to family, not to friends. It's entirely your choice, and it can stay just yours for as long as you want.",
+      "feel.outP2":"If you choose to tell someone, it helps to start with a person you have reason to believe will react well — a close friend, a school counselor, or even just yourself, in a journal. You don't have to tell everyone at once, and if a reaction hurts, that says something about that person, not about you.",
       "feel.groundT":"When a feeling is too big, right now",
       "feel.groundSub":"A simple grounding technique for when something feels overwhelming:",
       "feel.close":"If emotions become overwhelming for long stretches — constant sadness, anxiety that doesn't pass, thoughts that something is wrong with you — it's worth talking to a trusted adult or a school counselor. You don't have to go through it alone.",
@@ -974,8 +1108,12 @@
       "cons.c2p":"Real consent is given freely (no pressure, fear, or manipulation), clearly (communicated, not assumed), specifically (for one particular thing, not \"everything that follows\"), and can be withdrawn at any time — even after an initial \"yes\".",
       "cons.c2bt":"The age of consent in Romania",
       "cons.c2bp":"Since 2024, Romanian law states that a person under 16 cannot give valid consent to a sexual relationship with someone significantly older. This protects you — no matter what that adult says or promises, the law is on your side.",
+      "cons.alcT":"Alcohol, drugs, and consent",
+      "cons.alcP":"A person under the influence of alcohol or other substances, or who is asleep or unconscious, cannot give valid consent — no matter what they said before drinking or what they \"seemed\" to want. Taking advantage of that state is sexual assault, not \"luck\". And if you've been drinking, you still have the right to change your mind or step back from anything, no matter how far it's gone.",
       "cons.sayNoT":"How to actually say \"no\"",
       "cons.sayNoSub":"You don't need an elaborate reason. A few lines that work:",
+      "cons.checkT":"Consent isn't a single question",
+      "cons.checkSub":"It's checked along the way, not just at the start. Useful lines:",
       "cons.talkT":"How to talk about protection, with a partner",
       "cons.talkSub":"An awkward conversation is easier with lines prepared ahead of time:",
       "cons.assaultT":"Sexual assault — what it means and what you can do",
@@ -1006,7 +1144,12 @@
       "hlth.pregP1":"Several options exist (continuing the pregnancy, adoption, or ending it, where the law allows) — which one fits depends on context, personal or family values, and it's a decision made with medical guidance and often the support of a trusted adult. The most important thing is to talk to someone as soon as possible — a parent, a doctor, or a family-planning clinic can explain the concrete options, confidentially.",
       "hlth.stiListT":"The most common STIs, briefly",
       "hlth.stiListP":"The risk exists for any type of couple, regardless of partners' gender — protection and testing matter equally for everyone.",
+      "hlth.stiSymp":"Signs worth a check-up (not a diagnosis, just a signal): burning when urinating, unusual discharge, itching, blisters or sores in the genital area. Many STIs, though, show no signs at all — testing matters more than \"how you feel\".",
       "hlth.testing":"STI testing is usually free and confidential at infectious disease clinics or family-planning centers — including for minors, in many cases without needing a parent's consent for testing (though treatment may require an adult's involvement).",
+      "hlth.lgbtq":"For LGBTQIA+-specific questions — health, discrimination, LGBTQ-friendly doctors — the ACCEPT Association offers confidential information and support (acceptromania.ro).",
+      "hlth.examT":"What to expect at a first gynecological/sexual-health check-up",
+      "hlth.examP1":"A first check-up doesn't necessarily mean an internal exam — often it's just a conversation about your cycle, contraception, or questions, with no touching at all. If a physical exam is needed, the doctor explains each step before doing it, and you can ask to stop at any time.",
+      "hlth.examP2":"You can ask for a parent or another trusted person to be present, or ask to be alone with the doctor — both are valid options. The conversation stays confidential.",
       "hlth.c1t":"Sexually transmitted infections (STIs)",
       "hlth.c1p1":"STIs are infections that can be passed through sexual contact. Many (e.g. chlamydia, HPV) show no visible symptoms at first, which is why testing matters, not just \"feeling fine\".",
       "hlth.c1p2":"The good news: most STIs are treatable, and risk can be significantly reduced by using condoms correctly and getting tested regularly once someone becomes sexually active.",
@@ -1071,6 +1214,12 @@
       {ro:"<b style='color:var(--text)'>Asexual</b> — atracție sexuală redusă sau absentă",en:"<b style='color:var(--text)'>Asexual</b> — little or no sexual attraction"},
       {ro:"<b style='color:var(--text)'>Încă nu știu</b> — și e complet ok să fie așa",en:"<b style='color:var(--text)'>Still figuring it out</b> — and that's completely fine"}
     ],
+    genderList:[
+      {ro:"<b style='color:var(--text)'>Cisgender</b> — identitatea de gen coincide cu sexul de la naștere",en:"<b style='color:var(--text)'>Cisgender</b> — gender identity matches sex assigned at birth"},
+      {ro:"<b style='color:var(--text)'>Transgender</b> — identitatea de gen diferă de sexul de la naștere",en:"<b style='color:var(--text)'>Transgender</b> — gender identity differs from sex assigned at birth"},
+      {ro:"<b style='color:var(--text)'>Non-binar</b> — nu se identifică strict ca „băiat” sau „fată”",en:"<b style='color:var(--text)'>Non-binary</b> — doesn't identify strictly as \"boy\" or \"girl\""},
+      {ro:"<b style='color:var(--text)'>Genderfluid</b> — identitatea se poate schimba în timp",en:"<b style='color:var(--text)'>Genderfluid</b> — identity can shift over time"}
+    ],
     groundList:[
       {ro:"Numește 5 lucruri pe care le vezi în jurul tău, chiar acum",en:"Name 5 things you can see around you, right now"},
       {ro:"Numește 4 lucruri pe care le poți atinge",en:"Name 4 things you can touch"},
@@ -1082,6 +1231,12 @@
       {ro:"„Nu sunt pregătit(ă).”",en:"\"I'm not ready.\""},
       {ro:"„Hai să ne oprim aici.”",en:"\"Let's stop here.\""},
       {ro:"„Nu-ți pot explica de ce — pur și simplu nu.”",en:"\"I don't have to explain why — it's just no.\""}
+    ],
+    checkList:[
+      {ro:"„Ești bine cu asta?”",en:"\"Are you okay with this?\""},
+      {ro:"„Vrei să continuăm, sau ne oprim?”",en:"\"Do you want to keep going, or stop?\""},
+      {ro:"„Spune-mi oricând dacă vrei să ne oprim.”",en:"\"Tell me anytime if you want to stop.\""},
+      {ro:"Tăcerea sau ezitarea nu înseamnă „da” — întreabă din nou.",en:"Silence or hesitation doesn't mean \"yes\" — ask again."}
     ],
     talkList:[
       {ro:"„Înainte să continuăm, ai la tine un prezervativ?”",en:"\"Before we go further, do you have a condom?\""},
@@ -1182,7 +1337,31 @@
         a:{ro:"Nu neapărat. Himenul variază foarte mult de la o persoană la alta — unele sângerează puțin, altele deloc, iar la unele s-a întins deja înainte de orice contact sexual (sport, tampoane etc). Sângerarea sau lipsa ei nu dovedește nimic — „virginitatea” e mai degrabă un concept social decât unul medical.",en:"Not necessarily. The hymen varies a lot between people — some bleed a little, some not at all, and for some it's already stretched before any sexual contact (sports, tampons, etc). Bleeding or its absence proves nothing — \"virginity\" is more a social concept than a medical one."}},
       {cat:"safety",label:"myth",
         q:{ro:"Sexul oral e „mai sigur” și nu poți lua nimic prin el?",en:"Is oral sex \"safe\" and risk-free?"},
-        a:{ro:"Fals. Herpes, gonoree, chlamydia și HPV se pot transmite și prin sex oral. E adesea mai puțin riscant decât cel vaginal sau anal pentru anumite infecții, dar „mai puțin risc” nu înseamnă „zero risc”.",en:"False. Herpes, gonorrhea, chlamydia, and HPV can all be passed through oral sex. It's often lower-risk than vaginal or anal sex for certain infections, but \"lower risk\" doesn't mean \"zero risk\"."}}
+        a:{ro:"Fals. Herpes, gonoree, chlamydia și HPV se pot transmite și prin sex oral. E adesea mai puțin riscant decât cel vaginal sau anal pentru anumite infecții, dar „mai puțin risc” nu înseamnă „zero risc”.",en:"False. Herpes, gonorrhea, chlamydia, and HPV can all be passed through oral sex. It's often lower-risk than vaginal or anal sex for certain infections, but \"lower risk\" doesn't mean \"zero risk\"."}},
+      {cat:"body",label:"myth",
+        q:{ro:"Poate metoda retragerii (pull-out) să previi o sarcină?",en:"Does the pull-out method prevent pregnancy?"},
+        a:{ro:"Nu în mod sigur. Retragerea înainte de ejaculare reduce riscul, dar nu îl elimină — lichidul preseminal poate conține spermatozoizi, iar controlul perfect al timpului e greu de garantat. E una dintre cele mai puțin sigure metode.",en:"Not reliably. Withdrawing before ejaculation reduces risk but doesn't eliminate it — pre-ejaculate fluid can contain sperm, and perfect timing is hard to guarantee. It's one of the least reliable methods."}},
+      {cat:"body",label:"fact",
+        q:{ro:"Poate stresul să-ți întârzie sau să-ți schimbe ciclul?",en:"Can stress delay or change your period?"},
+        a:{ro:"Da. Stresul, lipsa somnului, schimbările de greutate sau efortul fizic intens pot întârzia sau modifica temporar ciclul menstrual. Un ciclu care rămâne neregulat mult timp merită totuși discutat cu un medic.",en:"Yes. Stress, lack of sleep, weight changes, or intense physical exertion can temporarily delay or shift your cycle. A cycle that stays irregular for a long time is still worth discussing with a doctor."}},
+      {cat:"safety",label:"myth",
+        q:{ro:"Poți lua o ITS de la un WC public sau o cadă/jacuzzi?",en:"Can you catch an STI from a public toilet or a hot tub?"},
+        a:{ro:"Practic, nu. ITS se transmit prin contact sexual direct, nu prin suprafețe, apă sau toalete. E un mit vechi și persistent, dar fără bază reală.",en:"Practically, no. STIs spread through direct sexual contact, not through surfaces, water, or toilet seats. It's an old, persistent myth with no real basis."}},
+      {cat:"safety",label:"fact",
+        q:{ro:"Ce fac dacă mă îngrijorează că părinții mei văd ce caut despre asta pe telefon?",en:"What if I'm worried my parents will see what I search about this?"},
+        a:{ro:"Informarea despre corpul tău nu e ceva de care să-ți fie rușine. Multe browsere au un mod privat care nu salvează istoricul; dar dacă tot te îngrijorează, poți citi aici, unde nimic nu se salvează (vezi „Acasă”).",en:"Learning about your body isn't something to be ashamed of. Most browsers have a private mode that doesn't save history; but if it still worries you, you can read here, where nothing is saved (see \"Home\")."}},
+      {cat:"feel",label:"fact",
+        q:{ro:"E normal să fiu speriat(ă) sau nervos(ă) înainte de un prim sărut sau o primă experiență?",en:"Is it normal to be nervous or scared before a first kiss or first experience?"},
+        a:{ro:"Complet normal. Nervozitatea, emoția sau chiar o urmă de frică înaintea unui prim moment de acest gen sunt reacții firești — nu înseamnă că faci ceva greșit sau că nu ești „pregătit”.",en:"Completely normal. Nervousness, excitement, or even a trace of fear before a first moment like that are natural reactions — they don't mean you're doing something wrong or that you're not \"ready\"."}},
+      {cat:"feel",label:"fact",
+        q:{ro:"Cât de des e normal să mă gândesc la sex?",en:"How often is it normal to think about sex?"},
+        a:{ro:"Variază enorm de la o persoană la alta, mai ales în adolescență, când hormonii sunt activi. Nu există un „normal” fix — dacă gândurile îți afectează grav somnul, concentrarea sau starea de bine, merită o discuție cu un adult de încredere sau un specialist.",en:"It varies hugely from person to person, especially during adolescence when hormones are active. There's no fixed \"normal\" — if the thoughts seriously affect your sleep, focus, or wellbeing, it's worth talking to a trusted adult or a specialist."}},
+      {cat:"safety",label:"fact",
+        q:{ro:"Am nevoie de acordul părinților ca să merg la un medic pentru asta?",en:"Do I need my parents' permission to see a doctor about this?"},
+        a:{ro:"Depinde de tipul de consultație, dar multe servicii — testare ITS, planning familial — sunt accesibile confidențial și pentru minori, fără acordul unui părinte, mai ales de la o anumită vârstă. Un cabinet de planning familial poate explica exact ce se aplică în cazul tău.",en:"It depends on the type of visit, but many services — STI testing, family planning — are confidentially accessible to minors without parental consent, especially from a certain age. A family-planning clinic can explain exactly what applies in your case."}},
+      {cat:"safety",label:"fact",
+        q:{ro:"Ce fac dacă un adult de încredere mă face să mă simt ciudat în legătură cu corpul meu, dar nu știu exact de ce?",en:"What if a trusted adult makes me feel weird about my body, but I don't know exactly why?"},
+        a:{ro:"Sentimentul acela de inconfort contează, chiar dacă nu poți explica exact de ce. Nu trebuie să ai o dovadă clară pentru a vorbi cu un alt adult de încredere sau a suna la 116 111 — merită să spui, chiar dacă nu ești sigur(ă).",en:"That feeling of discomfort matters, even if you can't explain exactly why. You don't need clear proof to talk to another trusted adult or call the helpline — it's worth saying something, even if you're not sure."}}
     ],
     glossary:[
       {ro:{t:"Pubertate",d:"Perioada în care corpul unui copil se transformă fizic într-un corp adult, prin acțiunea hormonilor."},en:{t:"Puberty",d:"The period when a child's body physically transforms into an adult body, driven by hormones."}},
@@ -1203,13 +1382,19 @@
       {ro:{t:"Vârsta consimțământului",d:"Vârsta minimă stabilită prin lege sub care o persoană nu poate consimți valabil la relații sexuale — 16 ani în România."},en:{t:"Age of consent",d:"The minimum age set by law under which a person cannot legally consent to sexual activity — 16 in Romania."}},
       {ro:{t:"Vaccin HPV",d:"Vaccin care protejează împotriva tulpinilor de virus HPV asociate cu unele tipuri de cancer, recomandat de obicei la începutul adolescenței."},en:{t:"HPV vaccine",d:"A vaccine protecting against HPV strains linked to certain cancers, usually recommended in early adolescence."}},
       {ro:{t:"Virginitate",d:"Un concept social, nu o stare medicală clar definită — nu poate fi „verificat” printr-un examen fizic simplu."},en:{t:"Virginity",d:"A social concept, not a clearly defined medical state — it can't be \"verified\" by a simple physical exam."}},
-      {ro:{t:"Lubrifiant",d:"Produs care reduce frecarea în timpul contactului sexual; cele pe bază de apă sau silicon sunt sigure cu prezervativele din latex, cele pe bază de ulei nu."},en:{t:"Lubricant",d:"A product that reduces friction during sexual contact; water- or silicone-based ones are safe with latex condoms, oil-based ones are not."}}
+      {ro:{t:"Lubrifiant",d:"Produs care reduce frecarea în timpul contactului sexual; cele pe bază de apă sau silicon sunt sigure cu prezervativele din latex, cele pe bază de ulei nu."},en:{t:"Lubricant",d:"A product that reduces friction during sexual contact; water- or silicone-based ones are safe with latex condoms, oil-based ones are not."}},
+      {ro:{t:"Transgender",d:"O persoană a cărei identitate de gen diferă de sexul atribuit la naștere."},en:{t:"Transgender",d:"A person whose gender identity differs from the sex assigned at birth."}},
+      {ro:{t:"Cisgender",d:"O persoană a cărei identitate de gen coincide cu sexul atribuit la naștere."},en:{t:"Cisgender",d:"A person whose gender identity matches the sex assigned at birth."}},
+      {ro:{t:"Non-binar",d:"Identitate de gen care nu se încadrează strict în „bărbat” sau „femeie”."},en:{t:"Non-binary",d:"A gender identity that doesn't fit strictly into \"man\" or \"woman\"."}},
+      {ro:{t:"Fecundare",d:"Momentul în care un spermatozoid se unește cu un ovul, formând începutul unei sarcini."},en:{t:"Fertilization",d:"The moment a sperm cell joins an egg cell, forming the start of a pregnancy."}},
+      {ro:{t:"Emisie nocturnă",d:"Ejaculare involuntară în timpul somnului („vis umed”) — complet normală, mai ales în pubertate."},en:{t:"Nocturnal emission",d:"An involuntary ejaculation during sleep (a \"wet dream\") — completely normal, especially during puberty."}}
     ],
     resources:[
       {num:"116111",ro:{t:"Telefonul Copilului",d:"Linie gratuită și confidențială pentru copii și adolescenți din România — abuz, siguranță online, sprijin emoțional."},en:{t:"Telefonul Copilului (Child Helpline)",d:"Free, confidential helpline for children and teens in Romania — abuse, online safety, emotional support."}},
       {num:"112",ro:{t:"Urgențe naționale",d:"Poliție, ambulanță, pompieri — pentru pericol imediat."},en:{t:"National emergency number",d:"Police, ambulance, fire — for immediate danger."}},
       {num:"→",ro:{t:"Un adult de încredere",d:"Un părinte, profesor, consilier școlar sau rudă apropiată — persoanele care te cunosc pot ajuta cel mai mult."},en:{t:"A trusted adult",d:"A parent, teacher, school counselor, or close relative — people who know you can help the most."}},
-      {num:"⚕",ro:{t:"Medic de familie / ginecolog",d:"Pentru orice întrebare medicală legată de corp, ciclu sau sănătate sexuală — confidențial."},en:{t:"Family doctor / gynecologist",d:"For any medical question about your body, cycle, or sexual health — confidential."}}
+      {num:"⚕",ro:{t:"Medic de familie / ginecolog",d:"Pentru orice întrebare medicală legată de corp, ciclu sau sănătate sexuală — confidențial."},en:{t:"Family doctor / gynecologist",d:"For any medical question about your body, cycle, or sexual health — confidential."}},
+      {num:"🏳️‍🌈",ro:{t:"Asociația ACCEPT",d:"Informații și sprijin pentru comunitatea LGBTQIA+ — sănătate, discriminare, medici prietenoși (acceptromania.ro)."},en:{t:"ACCEPT Association",d:"Information and support for the LGBTQIA+ community — health, discrimination, LGBTQ-friendly doctors (acceptromania.ro)."}}
     ]
   };
 
@@ -1244,11 +1429,17 @@
   function renderIdentityList(){
     document.getElementById("feel-identity-list").innerHTML = D.identityList.map(it=>`<li>${it[lang]}</li>`).join("");
   }
+  function renderGenderList(){
+    document.getElementById("feel-gender-list").innerHTML = D.genderList.map(it=>`<li>${it[lang]}</li>`).join("");
+  }
   function renderConsPrinciples(){
     document.getElementById("cons-principles").innerHTML = D.consPrinciples.map(it=>`<li>${it[lang]}</li>`).join("");
   }
   function renderSayNo(){
     document.getElementById("cons-sayno-list").innerHTML = D.sayNoList.map(it=>`<li>${it[lang]}</li>`).join("");
+  }
+  function renderCheckList(){
+    document.getElementById("cons-check-list").innerHTML = D.checkList.map(it=>`<li>${it[lang]}</li>`).join("");
   }
   function renderTalkList(){
     document.getElementById("cons-talk-list").innerHTML = D.talkList.map(it=>`<li>${it[lang]}</li>`).join("");
@@ -1339,8 +1530,8 @@
   }
 
   function renderAllDynamic(){
-    renderBodyChecklist(); renderPeriodTips(); renderPadsList(); renderAnatomyList(); renderIdentityList(); renderGround();
-    renderConsPrinciples(); renderSayNo(); renderTalkList(); renderCompare(); renderContraList(); renderCondomList(); renderReadyList(); renderStiList(); renderHygiene();
+    renderBodyChecklist(); renderPeriodTips(); renderPadsList(); renderAnatomyList(); renderIdentityList(); renderGenderList(); renderGround();
+    renderConsPrinciples(); renderSayNo(); renderCheckList(); renderTalkList(); renderCompare(); renderContraList(); renderCondomList(); renderReadyList(); renderStiList(); renderHygiene();
     renderQaFilters(); renderQaList(); renderGlossary(); renderResources();
   }
 
